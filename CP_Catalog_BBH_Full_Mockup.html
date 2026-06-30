@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CP Catalog BBH — Full Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#10193b; --accent:#0f4775; --pop:#31bced; --hover:#0091bf;
+    --bg:#f5f8f8; --panel:#fff; --border:#dbdae0; --soft:#eef3f3; --info:#e0f5fd;
+    --text:#2b2f38; --sub:#5a6472; --muted:#9aa3b0;
+    --sei:#0091bf; --nonsei:#5a6472;
+    --api:#159943; --data:#0091bf; --datapoint:#0f4775; --interface:#b8528a; --loader:#7c3aed; --pii:#c1113a;
+    --realtime:#159943; --batch:#0091bf;
+    --inbound:#0091bf; --outbound:#7c3aed;
+    --bronze:#a8743a; --silver:#8a9199; --gold:#c8932a;
+    --get:#159943; --post:#0091bf; --put:#e67e22; --del:#c1113a;
+    --mand:#c1113a; --cond:#e67e22; --opt:#5a6472; --ok:#159943; --warn:#e67e22;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:Roboto,Arial,sans-serif;font-size:14px;line-height:1.5}
+  .mono{font-family:'Roboto Mono',monospace}
+  .top{background:var(--navy);color:#fff;display:flex;align-items:center;padding:0 18px;height:52px;gap:10px;position:sticky;top:0;z-index:50}
+  .logo{width:30px;height:30px;background:var(--pop);border-radius:3px;display:grid;place-items:center;color:var(--navy);font-weight:700;font-size:13px}
+  .top b{font-size:14px}.top small{color:#8ea3c4;font-size:10px;display:block}
+  .badge{margin-left:4px;font-size:9px;font-weight:700;padding:3px 8px;border-radius:10px;background:rgba(21,153,67,.25);color:#bfe}
+  .searchwrap{margin-left:14px;position:relative;width:330px}
+  .searchbox{background:rgba(255,255,255,.12);border-radius:16px;height:32px;display:flex;align-items:center;padding:0 12px;color:#9fb3cf;font-size:12px}
+  .searchbox input{background:none;border:none;outline:none;color:#fff;font-size:12px;flex:1;margin-left:6px}
+  .dropdown{position:absolute;top:38px;left:0;width:420px;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:0 8px 28px rgba(16,25,59,.25);overflow:hidden;display:none;z-index:60}
+  .dropdown.show{display:block}
+  .ddh{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);padding:7px 13px 3px}
+  .ddrow{display:flex;align-items:center;gap:9px;padding:7px 13px;cursor:pointer;border-bottom:1px solid var(--bg)}
+  .ddrow:hover{background:var(--info)}
+  .ddfoot{padding:8px 13px;font-size:12px;font-weight:600;color:var(--accent);background:var(--soft);cursor:pointer;text-align:center}
+  .mbadge{font-size:8px;font-weight:700;color:#fff;padding:2px 7px;border-radius:3px;min-width:80px;text-align:center;flex-shrink:0}
+  nav.modnav{margin-left:auto;display:flex;gap:2px;flex-wrap:wrap}
+  nav.modnav a{color:#bcccdf;font-size:12px;padding:6px 9px;border-radius:3px;cursor:pointer;white-space:nowrap}
+  nav.modnav a.active{background:var(--accent);color:#fff}
+  .wrap{max-width:1290px;margin:0 auto;padding:22px 22px 80px}
+  .h1{font-size:22px;font-weight:500;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:10px;margin:0 0 6px;display:flex;align-items:center;gap:10px}
+  .lead{font-size:13px;color:var(--sub);margin:0 0 16px;line-height:1.6;max-width:880px}
+  .screen{display:none}.screen.on{display:block}
+  .tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:16px;flex-wrap:wrap}
+  .tabs button{background:none;border:none;font-size:12.5px;font-weight:500;padding:9px 13px;cursor:pointer;color:var(--sub);border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit}
+  .tabs button.on{color:var(--accent);border-bottom-color:var(--accent)}
+  .pane{display:none}.pane.on{display:block}
+  .kpis{display:flex;gap:11px;margin-bottom:18px;flex-wrap:wrap}
+  .kpi{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:11px 16px;min-width:100px}
+  .kpi .n{font-size:21px;font-weight:700;color:var(--navy)}.kpi .n.d{color:var(--mand)}
+  .kpi .l{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-top:3px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:13px;margin-bottom:22px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:15px;cursor:pointer}
+  .card .ct{font-size:15px;font-weight:600;color:var(--navy)}
+  .card .cd{font-size:12px;color:var(--sub);margin-top:4px;line-height:1.4}
+  .gl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:0 0 10px}
+  table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--border);border-radius:4px;overflow:hidden}
+  th{background:var(--soft);text-align:left;padding:8px 10px;font-size:9.5px;font-weight:700;text-transform:uppercase;color:var(--accent)}
+  td{padding:8px 10px;font-size:13px;border-bottom:1px solid var(--bg);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr.click{cursor:pointer}tr.click:hover td{background:var(--info)}
+  .pill{font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;color:#fff;display:inline-block}
+  .mb{font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;color:#fff;min-width:38px;text-align:center;display:inline-block}
+  .mb.GET{background:var(--get)}.mb.POST{background:var(--post)}.mb.PUT{background:var(--put)}.mb.DELETE{background:var(--del)}
+  .opt.Mandatory{background:var(--mand)}.opt.Conditional{background:var(--cond)}.opt.Optional{background:var(--opt)}
+  .layout{display:flex;gap:16px;align-items:flex-start}
+  .listcol{width:280px;flex-shrink:0}
+  .litem{display:block;width:100%;text-align:left;padding:9px 12px;margin-bottom:5px;cursor:pointer;font-family:inherit;border:1px solid var(--border);border-radius:6px;background:var(--panel)}
+  .litem.on{border-color:var(--accent);background:var(--info)}
+  .litem .nm{font-size:13px;font-weight:600;color:var(--navy)}.litem .mt{font-size:11px;color:var(--sub);margin-top:2px}
+  .detail{flex:1;min-width:0}
+  .chip{font-size:12px;padding:5px 11px;cursor:pointer;border:1px solid var(--border);border-radius:16px;background:var(--panel);color:var(--sub);margin:0 6px 8px 0;display:inline-flex;align-items:center;gap:5px}
+  .chip.on{border-color:var(--accent);background:var(--info);color:var(--accent)}
+  .chain{display:flex;align-items:center;flex-wrap:wrap;margin:10px 0 14px;gap:2px}
+  .gnode{background:var(--soft);border:1px solid var(--border);border-radius:5px;padding:8px 11px;min-width:118px}
+  .gnode .gm{font-size:9px;font-weight:700}.gnode .gp{font-size:12px;font-weight:600;color:var(--navy);word-break:break-all}.gnode .gd{font-size:10px;color:var(--muted)}
+  .ar{color:var(--muted);font-size:15px;padding:0 5px}
+  .sec{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin:16px 0 8px}
+  pre{background:#0a0f24;color:#cfe3ff;padding:13px;border-radius:6px;font-size:12px;overflow-x:auto;font-family:'Roboto Mono',monospace;line-height:1.5}
+  .note{background:#fffbea;border:1px solid var(--warn);border-radius:8px;padding:14px 16px;margin-bottom:20px}
+  .note h3{margin:0 0 6px;font-size:13px;color:#8a5200}
+  .note .ri{font-size:12px;color:#6b4500;padding:2px 0;display:flex;gap:8px}
+  .ok{color:var(--ok);font-weight:700}.no{color:var(--mand);font-weight:700}
+  .mapgrid{display:grid;grid-template-columns:150px 1fr;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+  .mapgrid .k{background:var(--soft);padding:9px 12px;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--accent);border-bottom:1px solid var(--border)}
+  .mapgrid .v{padding:9px 12px;font-size:13px;border-bottom:1px solid var(--border)}
+  .modchip{display:inline-block;font-size:11px;font-family:'Roboto Mono',monospace;background:var(--info);color:var(--accent);padding:2px 8px;border-radius:3px}
+  .modebadge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;color:#fff}
+  .modebadge.rt{background:var(--realtime)}.modebadge.bt{background:var(--batch)}
+  .bar{height:22px;border-radius:3px;background:var(--data);display:flex;align-items:center;padding:0 8px;color:#fff;font-size:11px;font-weight:600;min-width:30px}
+  .pf{background:none;border:none;color:#bcccdf;font-size:11px;font-weight:600;padding:4px 11px;border-radius:11px;cursor:pointer;font-family:inherit}
+  .pf.on{background:var(--pop);color:var(--navy)}
+  .filterbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px;padding:11px 14px;background:var(--panel);border:1px solid var(--border);border-radius:8px}
+  .filterbar label{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-right:3px}
+  .filterbar select{font-size:12px;padding:5px 9px;border:1px solid var(--border);border-radius:6px;font-family:inherit;background:var(--panel)}
+  .viewtoggle{display:flex;gap:2px;background:var(--soft);border-radius:7px;padding:3px;margin-left:auto}
+  .viewtoggle button{background:none;border:none;font-size:12px;font-weight:600;padding:5px 13px;border-radius:5px;cursor:pointer;color:var(--sub);font-family:inherit}
+  .viewtoggle button.on{background:var(--panel);color:var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+  .builder{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:18px;margin-top:6px}
+  .pickitem{display:flex;align-items:center;gap:9px;padding:8px 11px;border:1px solid var(--border);border-radius:6px;margin-bottom:6px;cursor:grab;background:var(--soft)}
+  .pickitem:hover{border-color:var(--accent)}
+  .pickitem .drag{color:var(--muted);font-size:14px}
+  .steprow{display:flex;align-items:center;gap:9px;padding:9px 12px;border:1px solid var(--accent);border-radius:6px;margin-bottom:6px;background:var(--info)}
+  .steprow .ord{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;flex-shrink:0}
+  .hopchain{display:flex;align-items:center;flex-wrap:wrap;gap:0;padding:18px;background:var(--panel);border:1px solid var(--border);border-radius:8px}
+  .hop{background:var(--navy);color:#fff;border-radius:8px;padding:11px 16px;text-align:center;min-width:120px}
+  .hop .ht{font-weight:700;font-size:13px}.hop .hs{font-size:10px;opacity:.8}
+  .hop.legacy{background:var(--nonsei)}.hop.sei{background:var(--sei)}.hop.target{background:var(--accent)}
+  .hoparrow{color:var(--hover);font-size:20px;padding:0 8px;font-weight:700}
+  .hoparrow .hl{font-size:9px;color:var(--muted);display:block;text-align:center}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="logo">CP</div>
+  <div><b>CP Catalog BBH</b><small>Capital Partners · SWP Migration</small></div>
+  <span class="badge">● LIVE</span>
+  <div class="searchwrap">
+    <div class="searchbox">⚲ <input id="sb" placeholder="Search all modules…  (Enter)" oninput="onType(this.value)" onkeydown="if(event.key==='Enter')go('search')"></div>
+    <div class="dropdown" id="dd"></div>
+  </div>
+  <nav class="modnav">
+    <a onclick="go('home')" id="nav-home" class="active">Home</a>
+    <a onclick="go('api')" id="nav-api">API 360</a>
+    <a onclick="go('data')" id="nav-data">Data 360</a>
+    <a onclick="go('datapoint')" id="nav-datapoint">Datapoint 360</a>
+    <a onclick="go('interface')" id="nav-interface">Interface 360</a>
+    <a onclick="go('search')" id="nav-search">Search</a>
+  </nav>
+  <div style="display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.1);border-radius:14px;padding:3px;margin-left:10px" id="projfilter">
+    <button onclick="setProj('all',this)" class="pf on">All</button>
+    <button onclick="setProj('sei',this)" class="pf">SEI</button>
+    <button onclick="setProj('nonsei',this)" class="pf">Non-SEI</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ HOME ============ -->
+  <div class="screen on" id="s-home">
+    <div class="h1">CP Catalog BBH</div>
+    <p class="lead">Metadata catalog for the SEI Wealth Platform (SWP) migration off legacy AddVantage.
+      <b>Project</b> is the parent of every feed, loader, and pipeline. Two flow types: <span class="modebadge rt">REAL-TIME API</span> (API 360) and <span class="modebadge bt">BATCH FEED</span> (Data 360).</p>
+
+    <div class="note">
+      <h3>⚙ Full catalog — review map</h3>
+      <div class="ri"><span class="ok">✓</span> Home: project-parent cards (SEI + non-SEI) · KPIs · full-text search</div>
+      <div class="ri"><span class="ok">✓</span> API 360: real-time business flows (endpoint chains, produces/consumes)</div>
+      <div class="ri"><span class="ok">✓</span> Data 360: batch pipelines (inbound feeds, dbt, loaders, outbound) + compression (444→37 marts)</div>
+      <div class="ri"><span class="ok">✓</span> Datapoint 360: anchored to SEI feed/loader inventory + metadata; flows layered on top</div>
+      <div class="ri"><span class="ok">✓</span> Interface 360: legacy AddVantage → SEI migration map</div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi"><div class="n">444</div><div class="l">Business Pipelines</div></div>
+      <div class="kpi"><div class="n">40</div><div class="l">API Flows</div></div>
+      <div class="kpi"><div class="n">37</div><div class="l">dbt Gold Marts</div></div>
+      <div class="kpi"><div class="n">43</div><div class="l">SEI Inbound Feeds</div></div>
+      <div class="kpi"><div class="n">25</div><div class="l">SEI Loaders</div></div>
+      <div class="kpi"><div class="n d">36</div><div class="l">PII Attributes</div></div>
+    </div>
+
+    <div class="gl">Projects — the parent of all feeds / loaders / pipelines</div>
+    <div class="cards">
+      <div class="card" style="border-top:4px solid var(--sei)" onclick="go('data')">
+        <div style="display:flex;align-items:center"><span class="ct">SEI Wealth Platform</span><span class="pill" style="background:var(--sei);margin-left:auto">SEI</span></div>
+        <div class="cd">Target platform. SWP migration off AddVantage.</div>
+        <div style="display:flex;gap:13px;flex-wrap:wrap;margin-top:11px">
+          <div><div style="font-size:17px;font-weight:700;color:var(--navy)">43</div><div style="font-size:9px;color:var(--muted);font-weight:700">INBOUND</div></div>
+          <div><div style="font-size:17px;font-weight:700;color:var(--navy)">25</div><div style="font-size:9px;color:var(--muted);font-weight:700">LOADERS</div></div>
+          <div><div style="font-size:17px;font-weight:700;color:var(--navy)">444</div><div style="font-size:9px;color:var(--muted);font-weight:700">PIPELINES</div></div>
+          <div><div style="font-size:17px;font-weight:700;color:var(--navy)">40</div><div style="font-size:9px;color:var(--muted);font-weight:700">API FLOWS</div></div>
+        </div>
+      </div>
+      <div class="card" style="border-top:4px solid var(--nonsei)">
+        <div style="display:flex;align-items:center"><span class="ct">AddVantage</span><span class="pill" style="background:var(--nonsei);margin-left:auto">LEGACY</span></div>
+        <div class="cd">Legacy accounting platform being retired — kept for migration reference.</div>
+        <div style="margin-top:11px;font-size:11px;color:var(--muted)">Interfaces mapped → SEI targets in Interface 360</div>
+      </div>
+    </div>
+
+    <div class="gl">Modules</div>
+    <div class="cards">
+      <div class="card" onclick="go('api')"><div class="ct">API 360 <span class="modebadge rt">REAL-TIME</span></div><div class="cd">SEI API orchestration — endpoint chains with produces/consumes.</div></div>
+      <div class="card" onclick="go('data')"><div class="ct">Data 360 <span class="modebadge bt">BATCH</span></div><div class="cd">Inbound feeds, dbt pipelines, loaders, compression.</div></div>
+      <div class="card" onclick="go('datapoint')"><div class="ct">Datapoint 360</div><div class="cd">SEI feed/loader inventory + metadata; flow lineage.</div></div>
+      <div class="card" onclick="go('interface')"><div class="ct">Interface 360</div><div class="cd">Legacy → SEI migration map.</div></div>
+    </div>
+  </div>
+
+  <!-- ============ API 360 (real-time) ============ -->
+  <div class="screen" id="s-api">
+    <div class="h1">API 360 <span class="modebadge rt">REAL-TIME / SYNCHRONOUS</span></div>
+    <p class="lead">SEI API business flows — <b>real-time</b> request/response orchestration. A trigger fires an ordered
+      chain of SEI API calls; each step produces entities the next consumes. This is one way a business function runs;
+      the batch equivalent lives in Data 360.</p>
+    <div class="tabs">
+      <button class="on" onclick="ptab(this,'api','flows')">Business Flows</button>
+      <button onclick="ptab(this,'api','dep')">Dependency Graph</button>
+      <button onclick="ptab(this,'api','sources')">Sources</button>
+    </div>
+    <div class="pane on" id="api-flows">
+      <div class="filterbar">
+        <label>Domain</label>
+        <select><option>All</option><option>Account & Client Lifecycle</option><option>Portfolio Accounting</option><option>SMA</option></select>
+        <label>Source</label>
+        <select><option>All</option><option>account.openapi</option><option>activity-management.openapi</option></select>
+        <label>Entity</label>
+        <select><option>All</option><option>accountNumber</option><option>portfolioId</option></select>
+        <button onclick="apiBuilder(true)" style="margin-left:auto;background:var(--post);color:#fff;border:none;border-radius:6px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">+ New Flow</button>
+      </div>
+
+      <div id="api-builder" style="display:none">
+        <div class="builder">
+          <div style="display:flex;align-items:center;margin-bottom:14px"><div style="font-size:16px;font-weight:600;color:var(--navy)">Flow Builder — assemble API endpoints</div>
+            <button onclick="apiBuilder(false)" style="margin-left:auto;background:none;border:1px solid var(--border);border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer">Cancel</button>
+            <button style="margin-left:8px;background:var(--ok);color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer">Save Flow</button></div>
+          <input placeholder="Flow name…" style="width:300px;padding:8px 12px;font-size:13px;border:1px solid var(--border);border-radius:6px;margin-bottom:14px">
+          <div class="layout">
+            <div style="flex:1">
+              <div class="sec">1 · Search &amp; pick endpoints</div>
+              <input placeholder="Search SEI API endpoints…" style="width:100%;padding:7px 11px;font-size:12px;border:1px solid var(--border);border-radius:6px;margin-bottom:8px">
+              <div class="pickitem"><span class="drag">⠿</span><span class="mb POST">POST</span><span class="mono" style="font-size:12px">/oauthsecurity/access_token</span><span style="margin-left:auto;color:var(--accent);cursor:pointer">+ add</span></div>
+              <div class="pickitem"><span class="drag">⠿</span><span class="mb POST">POST</span><span class="mono" style="font-size:12px">/activity/enroll</span><span style="margin-left:auto;color:var(--accent);cursor:pointer">+ add</span></div>
+              <div class="pickitem"><span class="drag">⠿</span><span class="mb POST">POST</span><span class="mono" style="font-size:12px">/account/create</span><span style="margin-left:auto;color:var(--accent);cursor:pointer">+ add</span></div>
+              <div class="pickitem"><span class="drag">⠿</span><span class="mb GET">GET</span><span class="mono" style="font-size:12px">/account/{id}</span><span style="margin-left:auto;color:var(--accent);cursor:pointer">+ add</span></div>
+            </div>
+            <div style="flex:1">
+              <div class="sec">2 · Order steps (drag) — produces/consumes checked</div>
+              <div class="steprow"><span class="ord">1</span><span class="mb POST">POST</span><span class="mono" style="font-size:12px">/oauthsecurity/access_token</span><span style="margin-left:auto;font-size:9px;color:var(--ok);font-weight:700">✓ produces access_token</span></div>
+              <div class="steprow"><span class="ord">2</span><span class="mb POST">POST</span><span class="mono" style="font-size:12px">/activity/enroll</span><span style="margin-left:auto;font-size:9px;color:var(--ok);font-weight:700">✓ access_token ok</span></div>
+              <div class="steprow"><span class="ord">3</span><span class="mb POST">POST</span><span class="mono" style="font-size:12px">/account/create</span><span style="margin-left:auto;font-size:9px;color:var(--ok);font-weight:700">✓ parentActivityId ok</span></div>
+              <div style="font-size:11px;color:var(--muted);margin-top:8px">Drag to reorder. A red flag appears if a step consumes an entity no earlier step produces.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="api-flowlist" class="layout">
+        <div class="listcol">
+          <div class="gl">Flows</div>
+          <button class="litem on"><div class="nm">client_account_onboarding</div><div class="mt">Account Lifecycle · 4 steps</div></button>
+          <button class="litem"><div class="nm">auth_token_mint</div><div class="mt">foundational · 1 step</div></button>
+          <button class="litem"><div class="nm">positions_realtime_retrieve</div><div class="mt">Portfolio · 3 steps</div></button>
+        </div>
+        <div class="detail">
+          <div style="display:flex;align-items:center;gap:10px"><div style="font-size:18px;font-weight:600;color:var(--navy)">client_account_onboarding</div><span class="modebadge rt">REAL-TIME</span>
+            <button onclick="apiBuilder(true)" style="margin-left:auto;background:none;border:1px solid var(--accent);color:var(--accent);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">Edit Flow</button></div>
+          <div class="lead">Goal: initiate enrollment · Trigger: user_action_enroll · Primary entity: accountNumber · Replaces AddV account-open STP</div>
+          <div class="chain">
+            <div class="gnode"><div class="gm" style="color:var(--post)">POST · 1</div><div class="gp">/oauthsecurity/access_token</div><div class="gd">produces access_token</div></div><span class="ar">→</span>
+            <div class="gnode"><div class="gm" style="color:var(--post)">POST · 2</div><div class="gp">/activity/enroll</div><div class="gd">consumes access_token</div></div><span class="ar">→</span>
+            <div class="gnode"><div class="gm" style="color:var(--post)">POST · 3</div><div class="gp">/account/create</div><div class="gd">produces accountNumber</div></div>
+          </div>
+          <table><thead><tr><th>#</th><th>Method</th><th>Path</th><th>Operation</th><th>Produces</th><th>Consumes</th></tr></thead><tbody>
+            <tr><td>1</td><td><span class="mb POST">POST</span></td><td class="mono">/api/v1/swp/oauthsecurity/access_token</td><td>—</td><td>access_token</td><td>—</td></tr>
+            <tr><td>2</td><td><span class="mb POST">POST</span></td><td class="mono">/api/v1/swp/activity/enroll</td><td>enrollActivity</td><td>parentActivityId</td><td>access_token</td></tr>
+            <tr><td>3</td><td><span class="mb POST">POST</span></td><td class="mono">/api/v1/swp/account/create</td><td>createAccount</td><td>accountNumber</td><td>parentActivityId</td></tr>
+          </tbody></table>
+          <div class="sec">Data points this flow touches → (Datapoint 360)</div>
+          <div><span class="chip">account_number</span><span class="chip">parent_activity_id</span><span class="chip">client_id</span></div>
+          <div class="sec">Batch equivalent</div>
+          <div style="font-size:13px;color:var(--sub)">Same business function via batch: <span class="modchip" onclick="go('data')" style="cursor:pointer">sei_pl_account_onboarding</span> <span class="modebadge bt">BATCH</span> — cross-reference, not a continuation.</div>
+        </div>
+      </div>
+    </div>
+    <div class="pane" id="api-dep">
+      <p class="lead">Endpoint dependency graph from produces/consumes. Edges form where one step's produced entity matches another's consumed entity.</p>
+      <div class="chain">
+        <div class="gnode"><div class="gm" style="color:var(--post)">POST</div><div class="gp">/access_token</div><div class="gd">produces access_token</div></div><span class="ar">→ access_token →</span>
+        <div class="gnode"><div class="gm" style="color:var(--post)">POST</div><div class="gp">/activity/enroll</div><div class="gd">produces parentActivityId</div></div><span class="ar">→ parentActivityId →</span>
+        <div class="gnode"><div class="gm" style="color:var(--post)">POST</div><div class="gp">/account/create</div></div>
+      </div>
+    </div>
+    <div class="pane" id="api-sources">
+      <table><thead><tr><th>Source (Swagger)</th><th>Project</th><th>Endpoints</th></tr></thead><tbody>
+        <tr class="click"><td><b>infrastructure.openapi.yaml</b></td><td><span class="pill" style="background:var(--sei)">SEI</span></td><td>12</td></tr>
+        <tr class="click"><td><b>activity-management.openapi.yaml</b></td><td><span class="pill" style="background:var(--sei)">SEI</span></td><td>48</td></tr>
+        <tr class="click"><td><b>account.openapi.yaml</b></td><td><span class="pill" style="background:var(--sei)">SEI</span></td><td>31</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <!-- ============ DATA 360 (batch) ============ -->
+  <div class="screen" id="s-data">
+    <div class="h1">Data 360 <span class="modebadge bt">BATCH FEED / SCHEDULED</span></div>
+    <p class="lead">Batch pipelines — <b>scheduled</b>, Airflow-orchestrated, feed/file-based. Inbound (SWP→BBH) and outbound
+      (BBH→SWP loader→SFTP). The compression view shows how 444 business pipelines implement as ~37 shared dbt marts.</p>
+    <div class="tabs">
+      <button class="on" onclick="ptab(this,'data','pipe')">Pipelines</button>
+      <button onclick="ptab(this,'data','inbound')">Inbound Feeds</button>
+      <button onclick="ptab(this,'data','loaders')">Loaders</button>
+      <button onclick="ptab(this,'data','compress')">Compression</button>
+      <button onclick="ptab(this,'data','lineage')">Lineage Graph</button>
+    </div>
+
+    <!-- pipelines -->
+    <div class="pane on" id="data-pipe">
+      <div class="filterbar">
+        <label>Domain</label><select><option>All</option><option>Account & Client Lifecycle</option><option>Portfolio Accounting</option></select>
+        <label>Archetype</label><select><option>All</option><option>inbound_ingest</option><option>outbound_publish</option><option>compute_derive</option></select>
+        <label>Direction</label><select><option>All</option><option>Inbound</option><option>Outbound</option></select>
+        <label>Schedule</label><select><option>All</option><option>EOD</option><option>BOD</option><option>Intraday</option></select>
+        <button onclick="dataBuilder(true)" style="margin-left:auto;background:var(--data);color:#fff;border:none;border-radius:6px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">+ New Pipeline</button>
+      </div>
+
+      <div id="data-builder" style="display:none">
+        <div class="builder">
+          <div style="display:flex;align-items:center;margin-bottom:14px"><div style="font-size:16px;font-weight:600;color:var(--navy)">Pipeline Builder — assemble batch stages</div>
+            <button onclick="dataBuilder(false)" style="margin-left:auto;background:none;border:1px solid var(--border);border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer">Cancel</button>
+            <button style="margin-left:8px;background:var(--ok);color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer">Save Pipeline</button></div>
+          <input placeholder="Pipeline name…" style="width:300px;padding:8px 12px;font-size:13px;border:1px solid var(--border);border-radius:6px;margin-bottom:14px">
+          <div class="layout">
+            <div style="flex:1">
+              <div class="sec">1 · Pick stages</div>
+              <div class="pickitem"><span class="drag">⠿</span><span class="pill" style="background:var(--inbound)">FEED</span><span>Client (inbound feed)</span><span style="margin-left:auto;color:var(--accent);cursor:pointer">+ add</span></div>
+              <div class="pickitem"><span class="drag">⠿</span><span class="pill" style="background:var(--bronze)">dbt</span><span>sei_brz_client</span><span style="margin-left:auto;color:var(--accent);cursor:pointer">+ add</span></div>
+              <div class="pickitem"><span class="drag">⠿</span><span class="pill" style="background:var(--gold)">dbt</span><span>sei_gld_clients</span><span style="margin-left:auto;color:var(--accent);cursor:pointer">+ add</span></div>
+              <div class="pickitem"><span class="drag">⠿</span><span class="pill" style="background:var(--outbound)">LOADER</span><span>Pivotal CRM target</span><span style="margin-left:auto;color:var(--accent);cursor:pointer">+ add</span></div>
+            </div>
+            <div style="flex:1">
+              <div class="sec">2 · Order (drag) — batch stage chain</div>
+              <div class="steprow"><span class="ord">1</span><span class="pill" style="background:var(--sei)">SOURCE</span><span>SEI SWP</span></div>
+              <div class="steprow"><span class="ord">2</span><span class="pill" style="background:var(--inbound)">FEED</span><span>Client</span></div>
+              <div class="steprow"><span class="ord">3</span><span class="pill" style="background:var(--bronze)">BRONZE</span><span>sei_brz_client</span></div>
+              <div class="steprow"><span class="ord">4</span><span class="pill" style="background:var(--gold)">GOLD</span><span>sei_gld_clients</span></div>
+              <div class="steprow"><span class="ord">5</span><span class="pill" style="background:var(--nonsei)">TARGET</span><span>Pivotal CRM</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="data-pipelist" class="layout">
+        <div class="listcol">
+          <div class="gl">Pipelines (444)</div>
+          <button class="litem on"><div class="nm">Accounts → Pivotal CRM</div><div class="mt"><span class="pill" style="background:var(--outbound)">OUT</span> EOD · outbound_publish</div></button>
+          <button class="litem"><div class="nm">Positions → Pivotal CRM</div><div class="mt"><span class="pill" style="background:var(--outbound)">OUT</span> EOD · outbound_publish</div></button>
+          <button class="litem"><div class="nm">EOD Positions ingest</div><div class="mt"><span class="pill" style="background:var(--inbound)">IN</span> EOD · inbound_ingest</div></button>
+        </div>
+        <div class="detail">
+          <div style="display:flex;align-items:center;gap:10px"><div style="font-size:18px;font-weight:600;color:var(--navy)">Accounts → Pivotal CRM</div><span class="modebadge bt">BATCH · EOD</span><span class="pill" style="background:var(--outbound)">OUTBOUND</span>
+            <button onclick="dataBuilder(true)" style="margin-left:auto;background:none;border:1px solid var(--accent);color:var(--accent);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">Edit Pipeline</button></div>
+          <div class="lead">Client account data (account number, title, RM, mkt value, AUM). Owner: Kelley B · Archetype: outbound_publish</div>
+          <div class="mapgrid" style="margin-bottom:14px">
+            <div class="k">Legacy</div><div class="v">AddVantage Pivotal CRM/SalesX Accounts</div>
+            <div class="k">SEI Target</div><div class="v">sei_feed · <b>Client</b></div>
+            <div class="k">Routing</div><div class="v">SEI SWP → Pivotal CRM</div>
+            <div class="k">Linked API Flow</div><div class="v"><span class="modchip" onclick="go('api')" style="cursor:pointer">interested_party_retrieve</span> <span class="modebadge rt">real-time equiv</span></div>
+          </div>
+          <div class="sec">Pipeline stages (batch)</div>
+          <div class="chain">
+            <div class="gnode" style="border-left:3px solid var(--sei)"><div class="gm">SOURCE</div><div class="gp">SEI SWP</div></div><span class="ar">→</span>
+            <div class="gnode" style="border-left:3px solid var(--inbound)"><div class="gm" style="color:var(--inbound)">FEED</div><div class="gp">Client</div></div><span class="ar">→</span>
+            <div class="gnode" style="border-left:3px solid var(--bronze)"><div class="gm" style="color:var(--bronze)">BRONZE</div><div class="gp">sei_brz_client</div></div><span class="ar">→</span>
+            <div class="gnode" style="border-left:3px solid var(--silver)"><div class="gm" style="color:var(--silver)">SILVER</div><div class="gp">sei_slv_client</div></div><span class="ar">→</span>
+            <div class="gnode" style="border-left:3px solid var(--gold)"><div class="gm" style="color:var(--gold)">GOLD</div><div class="gp">sei_gld_clients</div></div><span class="ar">→</span>
+            <div class="gnode" style="border-left:3px solid var(--nonsei)"><div class="gm">TARGET</div><div class="gp">Pivotal CRM</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- inbound feeds -->
+    <div class="pane" id="data-inbound">
+      <p class="lead">SEI EOD inbound feeds (SWP → BBH). Browse by workstream, drill to fields. This is the SEI feed inventory.</p>
+      <div><span class="chip on">All (43)</span><span class="chip">Portfolio Accounting (12)</span><span class="chip">Client & Account Onboarding (15)</span><span class="chip">Asset Data SMF (8)</span></div>
+      <div class="layout">
+        <div class="listcol">
+          <button class="litem on"><div class="nm">Account <span class="pill" style="background:var(--nonsei);float:right">STATIC</span></div><div class="mt">Client & Account Onboarding · 32 fields</div></button>
+          <button class="litem"><div class="nm">End of Day Positions <span class="pill" style="background:var(--inbound);float:right">FINANCIAL</span></div><div class="mt">Portfolio Accounting · 18 fields</div></button>
+        </div>
+        <div class="detail">
+          <div style="display:flex;align-items:center;gap:10px"><div style="font-size:18px;font-weight:600;color:var(--navy)">Account</div><span class="pill" style="background:var(--inbound)">INBOUND · SWP → BBH</span></div>
+          <div class="lead">Workstream: Client & Account Onboarding · 32 fields</div>
+          <table><thead><tr><th>#</th><th>Field</th><th>Description</th><th>Type</th><th>Len</th><th>Null</th><th>Ref</th><th>PII</th></tr></thead><tbody>
+            <tr><td>1</td><td class="mono">ACCOUNT_NUMBER</td><td>Client Account Number</td><td class="mono">CHAR</td><td>17</td><td><b style="color:var(--mand)">NOT NULL</b></td><td></td><td></td></tr>
+            <tr><td>2</td><td class="mono">ACCOUNT_DISPLAY_NAME</td><td>Account display name</td><td class="mono">CHAR</td><td>100</td><td><b style="color:var(--mand)">NOT NULL</b></td><td></td><td><span class="pill" style="background:var(--mand)">PII</span></td></tr>
+            <tr><td>7</td><td class="mono">PORTFOLIO_ID</td><td>SWP Portfolio ID</td><td class="mono">NUMBER(9)</td><td>9</td><td><b style="color:var(--mand)">NOT NULL</b></td><td><span class="pill" style="background:var(--nonsei)">REF</span></td><td></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- loaders -->
+    <div class="pane" id="data-loaders">
+      <p class="lead">Outbound loaders (BBH → SWP) — reference metadata from the 10-sheet loader workbook.</p>
+      <div class="layout">
+        <div class="listcol">
+          <button class="litem on"><div class="nm">Adhoc Income Loader</div><div class="mt">Group 2 · Income · v1.4</div></button>
+          <button class="litem"><div class="nm">Custody Transfer (v2)</div><div class="mt">Group 2 · Custody · v2.0</div></button>
+        </div>
+        <div class="detail">
+          <div style="display:flex;align-items:center;gap:10px"><div style="font-size:18px;font-weight:600;color:var(--navy)">Adhoc Income Loader</div><span class="pill" style="background:var(--outbound)">OUTBOUND · BBH → SWP</span></div>
+          <div class="tabs" style="margin-top:8px">
+            <button class="on" onclick="ltab(this,'attrs')">Attributes</button><button onclick="ltab(this,'val')">Validations</button>
+            <button onclick="ltab(this,'map')">Module Mapping</button><button onclick="ltab(this,'canon')">Canonical</button>
+          </div>
+          <div class="lpane on" id="l-attrs"><table><thead><tr><th>Attribute</th><th>Type</th><th>Optionality</th><th>Source</th></tr></thead><tbody>
+            <tr><td class="mono">ACCOUNT_NUMBER</td><td>Character(17)</td><td><span class="pill opt Mandatory">Mandatory</span></td><td style="font-size:10px;color:var(--muted)">Adhoc_Income_Attributes</td></tr>
+            <tr><td class="mono">INCOME_TYPE</td><td>Character</td><td><span class="pill opt Mandatory">Mandatory</span></td><td style="font-size:10px;color:var(--muted)">Adhoc_Income_Attributes</td></tr>
+          </tbody></table></div>
+          <div class="lpane" id="l-val"><table><thead><tr><th>Attribute</th><th>Rule</th><th>Error</th></tr></thead><tbody>
+            <tr><td class="mono">WITHHOLDING_TAX_RATE</td><td>0-100, 6 decimals</td><td style="color:var(--mand)">Invalid withholding tax rate</td></tr></tbody></table></div>
+          <div class="lpane" id="l-map"><div class="mapgrid">
+            <div class="k">API 360</div><div class="v"><span class="modchip">POST /income</span></div>
+            <div class="k">Data 360</div><div class="v"><span class="modchip">Income_Event</span></div>
+            <div class="k">Datapoint 360</div><div class="v" style="border-bottom:none"><span class="modchip">Income_Realized</span></div></div></div>
+          <div class="lpane" id="l-canon"><table><thead><tr><th>Canonical</th><th>Type</th><th>Physical</th></tr></thead><tbody>
+            <tr><td class="mono" style="color:var(--accent)">GROSS_AMOUNT</td><td class="mono">Decimal(18,6)</td><td class="mono">GROSS_AMOUNT</td></tr></tbody></table></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- compression -->
+    <div class="pane" id="data-compress">
+      <p class="lead"><b>Implementation architecture.</b> The catalog stays at 444 business pipelines, but they compress to
+        ~37 shared dbt gold marts (12× transformation compression). dbt compresses (pipelines share source data);
+        Airflow cannot (each consumer has its own schedule/format/SFTP) — so ~444 thin DAGs remain.</p>
+      <div class="kpis">
+        <div class="kpi"><div class="n">444</div><div class="l">Business Pipelines</div></div>
+        <div class="kpi"><div class="n">37</div><div class="l">dbt Gold Marts</div></div>
+        <div class="kpi"><div class="n">12.0×</div><div class="l">dbt Compression</div></div>
+        <div class="kpi"><div class="n">~148</div><div class="l">dbt Models</div></div>
+        <div class="kpi"><div class="n">~444</div><div class="l">Thin Airflow DAGs</div></div>
+      </div>
+      <div class="sec">Gold marts by pipeline reuse</div>
+      <table><thead><tr><th>dbt Gold Mart</th><th>API Flow</th><th>Pipelines</th><th>Reuse</th><th>DAG Pattern</th></tr></thead><tbody>
+        <tr class="click"><td class="mono">sei_gld_accounts</td><td class="mono">account_retrieve</td><td><div class="bar" style="width:100%;background:var(--data)">150</div></td><td>1 mart + 150 DAGs</td><td class="mono" style="font-size:11px">dag_publish_accounts_to_&lt;target&gt;</td></tr>
+        <tr class="click"><td class="mono">sei_gld_positions</td><td class="mono">positions_realtime_retrieve</td><td><div class="bar" style="width:55%;background:var(--data)">82</div></td><td>1 mart + 82 DAGs</td><td class="mono" style="font-size:11px">dag_publish_positions_to_&lt;target&gt;</td></tr>
+        <tr class="click"><td class="mono">sei_gld_clients</td><td class="mono">interested_party_retrieve</td><td><div class="bar" style="width:20%;background:var(--data)">30</div></td><td>1 mart + 30 DAGs</td><td class="mono" style="font-size:11px">dag_publish_clients_to_&lt;target&gt;</td></tr>
+        <tr class="click"><td class="mono">sei_gld_assets</td><td class="mono">asset_retrieve</td><td><div class="bar" style="width:18%;background:var(--data)">26</div></td><td>1 mart + 26 DAGs</td><td class="mono" style="font-size:11px">dag_publish_assets_to_&lt;target&gt;</td></tr>
+      </tbody></table>
+      <div class="note" style="margin-top:16px"><h3>Why this matters</h3>
+        <div class="ri">Catalog view = 444 (every consumer is a real business pipeline, traceable).</div>
+        <div class="ri">Implementation = ~37 dbt chains + ~444 thin DAGs. Recommendation: keep the 444 as the business catalog; Compression_Plan shows the build.</div>
+      </div>
+    </div>
+
+    <!-- lineage -->
+    <div class="pane" id="data-lineage">
+      <p class="lead">Orchestration (Airflow) + transformation (dbt) detail per pipeline. Shows the DAG schedule and each
+        dbt model's materialization, transformation SQL, and tests.</p>
+      <div class="sec">① Airflow orchestration</div>
+      <div style="background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span class="mono" style="font-weight:600;font-size:14px">dag_publish_clients_to_pivotal</span>
+          <span class="pill" style="background:var(--batch)">schedule: 0 2 * * 2-6 (TU-SAT 02:00)</span><span class="pill" style="background:var(--ok)">last run: success</span></div>
+        <div class="chain" style="margin:0">
+          <div class="gnode"><div class="gm">TASK</div><div class="gp">extract_client_feed</div></div><span class="ar">→</span>
+          <div class="gnode"><div class="gm">TASK</div><div class="gp">dbt_run client</div></div><span class="ar">→</span>
+          <div class="gnode"><div class="gm">TASK</div><div class="gp">dbt_test client</div></div><span class="ar">→</span>
+          <div class="gnode"><div class="gm">TASK</div><div class="gp">format_loader_file</div></div><span class="ar">→</span>
+          <div class="gnode"><div class="gm">TASK</div><div class="gp">sftp_to_pivotal</div></div>
+        </div>
+      </div>
+      <div class="sec">② dbt transformation rules (per model)</div>
+      <div class="chain">
+        <div class="gnode" style="border-left:3px solid var(--bronze)"><div class="gm" style="color:var(--bronze)">BRONZE</div><div class="gp">sei_brz_client</div><div class="gd">view · raw load</div></div><span class="ar">→</span>
+        <div class="gnode" style="border-left:3px solid var(--silver)"><div class="gm" style="color:var(--silver)">SILVER</div><div class="gp">sei_slv_client</div><div class="gd">incremental · cleansed</div></div><span class="ar">→</span>
+        <div class="gnode" style="border-left:3px solid var(--gold)" onclick="document.getElementById('dbtrule').style.display='block'"><div class="gm" style="color:var(--gold)">GOLD</div><div class="gp">sei_gld_clients</div><div class="gd">table · click for rule</div></div>
+      </div>
+      <div id="dbtrule" style="display:none;margin-top:12px">
+        <div class="mapgrid" style="margin-bottom:10px">
+          <div class="k">Materialization</div><div class="v mono">table</div>
+          <div class="k">Tests</div><div class="v">unique(account_number) · not_null(account_number, client_id) · relationships(portfolio_id)</div>
+          <div class="k">Meta</div><div class="v" style="border-bottom:none">domain: client · pii: yes · owner: Kelley B</div>
+        </div>
+        <div class="sec">Transformation SQL</div>
+        <pre>{{ config(materialized='table', tags=['client','eod']) }}
+SELECT account_number,
+       client_id,
+       INITCAP(account_display_name)        AS client_name,
+       portfolio_id,
+       base_currency,
+       CURRENT_DATE                         AS as_of_date
+FROM {{ ref('sei_slv_client') }}
+WHERE account_status = 'ACTIVE'</pre>
+        <div class="sec">Column lineage</div>
+        <table><thead><tr><th>Source</th><th>→</th><th>Target</th><th>Rule</th></tr></thead><tbody>
+          <tr><td class="mono">account_display_name</td><td>→</td><td class="mono">client_name</td><td class="mono">INITCAP(...)</td></tr>
+          <tr><td class="mono">account_number</td><td>→</td><td class="mono">account_number</td><td>passthrough (key)</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ DATAPOINT 360 ============ -->
+  <div class="screen" id="s-datapoint">
+    <div class="h1">Datapoint 360</div>
+    <p class="lead"><b>Anchored to the SEI feed/loader inventory + metadata.</b> Each data point's identity and metadata
+      (type, length, nullable, PII, ref) come from the SEI feeds/loaders. Flows (real-time + batch) are layered on
+      top as references — showing where each data point is used.</p>
+    <div class="cards" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr))">
+      <div class="card" style="border-top:4px solid var(--inbound)"><div class="ct">Inbound</div><div class="cd">SEI EOD feeds</div><div style="font-size:21px;font-weight:700;color:var(--inbound);margin-top:6px">6</div></div>
+      <div class="card" style="border-top:4px solid var(--outbound)"><div class="ct">Outbound</div><div class="cd">SEI loaders</div><div style="font-size:21px;font-weight:700;color:var(--outbound);margin-top:6px">5</div></div>
+      <div class="card" style="border-top:4px solid var(--ok)"><div class="ct">Both</div><div class="cd">round-tripped</div><div style="font-size:21px;font-weight:700;color:var(--ok);margin-top:6px">3</div></div>
+    </div>
+    <div class="layout">
+      <div class="listcol">
+        <button class="litem on"><div class="nm">account_number <span style="float:right;font-size:11px;color:var(--muted)">42×</span></div><div class="mt"><span class="pill" style="background:var(--inbound)">IN</span> <span class="pill" style="background:var(--outbound)">OUT</span> KEY</div></button>
+        <button class="litem"><div class="nm">market_value <span style="float:right;font-size:11px;color:var(--muted)">22×</span></div><div class="mt"><span class="pill" style="background:var(--inbound)">IN</span></div></button>
+      </div>
+      <div class="detail">
+        <div style="font-size:20px;font-weight:700;color:var(--navy)">ACCOUNT_NUMBER <span class="pill" style="background:var(--nonsei)">KEY</span></div>
+        <div class="lead">normalized: account_number · sourced from SEI feed inventory</div>
+        <div class="sec">Metadata (from SEI feed/loader inventory)</div>
+        <div class="mapgrid" style="margin-bottom:6px">
+          <div class="k">Data Type</div><div class="v mono">CHAR(17)</div>
+          <div class="k">Nullable</div><div class="v">NOT NULL</div>
+          <div class="k">PII</div><div class="v">No</div>
+          <div class="k">Source feed</div><div class="v" style="border-bottom:none">Account (authoritative)</div>
+        </div>
+        <div class="sec">Inbound — SEI EOD feeds</div>
+        <table><tbody>
+          <tr><td>Account feed · ACCOUNT_NUMBER</td><td class="mono" style="color:var(--muted)">swp.sei.account</td></tr>
+          <tr><td>EOD Positions feed · ACCOUNT_NUMBER</td><td class="mono" style="color:var(--muted)">swp.sei.eod_positions</td></tr></tbody></table>
+        <div class="sec">Outbound — SEI loaders</div>
+        <table><tbody><tr><td>Adhoc Income Loader · ACCOUNT_NUMBER</td><td class="mono" style="color:var(--muted)">loader.adhoc_income</td></tr></tbody></table>
+        <div class="sec">Used by flows (layered on top)</div>
+        <table><thead><tr><th>Flow / Pipeline</th><th>Mode</th><th>Module</th><th>Direction</th></tr></thead><tbody>
+          <tr><td class="mono">account_retrieve</td><td><span class="modebadge rt">REAL-TIME</span></td><td>API 360</td><td>inbound · primary key</td></tr>
+          <tr><td class="mono">sei_pl_pivotal_crm_accounts</td><td><span class="modebadge bt">BATCH</span></td><td>Data 360</td><td>outbound</td></tr>
+        </tbody></table>
+
+        <div class="sec">Interdependence — co-occurrence (data points sharing a feed)</div>
+        <div style="font-size:12px;color:var(--sub);margin-bottom:8px">Data points that appear in the same feeds as account_number — they move together:</div>
+        <div class="chain">
+          <div class="gnode" style="border-left:3px solid var(--datapoint)"><div class="gm">THIS</div><div class="gp">account_number</div></div>
+          <span class="ar">co-occurs in Account feed →</span>
+          <div class="gnode"><div class="gp">account_display_name</div><div class="gd">PII</div></div>
+          <div class="gnode"><div class="gp">portfolio_id</div><div class="gd">ref</div></div>
+          <div class="gnode"><div class="gp">base_currency</div></div>
+        </div>
+
+        <div class="sec">Interdependence — impact (what depends on this data point)</div>
+        <div style="font-size:12px;color:var(--sub);margin-bottom:8px">If ACCOUNT_NUMBER changes, these are affected:</div>
+        <table><thead><tr><th>Affected</th><th>Type</th><th>Via</th></tr></thead><tbody>
+          <tr><td class="mono">Account feed, EOD Positions, Taxlot</td><td><span class="pill" style="background:var(--inbound)">3 feeds</span></td><td>contains field</td></tr>
+          <tr><td class="mono">Adhoc Income Loader</td><td><span class="pill" style="background:var(--outbound)">1 loader</span></td><td>attribute</td></tr>
+          <tr><td class="mono">account_retrieve (RT), sei_pl_pivotal_crm_accounts (batch)</td><td><span class="pill" style="background:var(--accent)">2 flows</span></td><td>consumes</td></tr>
+          <tr><td class="mono">sei_gld_accounts + 150 pipelines</td><td><span class="pill" style="background:var(--gold)">1 mart</span></td><td>key column</td></tr>
+        </tbody></table>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px">This is migration impact analysis: change a SEI field → see every feed, loader, flow, and mart affected.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ INTERFACE 360 ============ -->
+  <div class="screen" id="s-interface">
+    <div class="h1">Interface 360 — Legacy → SEI Migration Map</div>
+    <p class="lead">System-to-system interfaces. AddVantage (legacy) mapped to its SEI target. Toggle Table ⇄ Routing;
+      filter by source, target, feed type, scope.</p>
+
+    <div class="filterbar">
+      <label>Source</label>
+      <select onchange="ifaceFilter()"><option>All</option><option>SEI SWP</option><option>AddVantage</option></select>
+      <label>Target</label>
+      <select onchange="ifaceFilter()"><option>All</option><option>Pivotal CRM</option><option>PBDW</option><option>Client Portal</option></select>
+      <label>Feed Type</label>
+      <select onchange="ifaceFilter()"><option>All</option><option>Batch</option><option>Real-time</option><option>Direct</option></select>
+      <label>Scope</label>
+      <select onchange="ifaceFilter()"><option>All</option><option>In Scope</option><option>Out of Scope</option></select>
+      <label>Direction</label>
+      <select onchange="ifaceFilter()"><option>All</option><option>Inbound</option><option>Outbound</option></select>
+      <div class="viewtoggle">
+        <button class="on" onclick="ifaceView(this,'table')">Table</button>
+        <button onclick="ifaceView(this,'routing')">Routing</button>
+      </div>
+    </div>
+
+    <div class="pane on" id="iface-table">
+      <table><thead><tr><th>Interface</th><th>Integration</th><th>Legacy</th><th>SEI Target</th><th>Feed Routing</th><th>Type</th><th>Dir</th><th>Sched</th><th>Status</th></tr></thead><tbody>
+        <tr class="click"><td><b>Pivotal CRM</b></td><td>Accounts</td><td><span class="pill" style="background:var(--nonsei)">AddVantage</span></td><td>sei_feed · <b>Client</b></td><td class="mono" style="font-size:11px">SEI SWP→Pivotal</td><td><span class="pill" style="background:var(--batch)">Batch</span></td><td><span class="pill" style="background:var(--outbound)">OUT</span></td><td>EOD</td><td><span class="pill" style="background:var(--ok)">→ SEI</span></td></tr>
+        <tr class="click"><td><b>Pivotal CRM</b></td><td>Positions</td><td><span class="pill" style="background:var(--nonsei)">AddVantage</span></td><td>sei_feed · <b>Asset</b></td><td class="mono" style="font-size:11px">SEI SWP→Pivotal</td><td><span class="pill" style="background:var(--batch)">Batch</span></td><td><span class="pill" style="background:var(--outbound)">OUT</span></td><td>EOD</td><td><span class="pill" style="background:var(--ok)">→ SEI</span></td></tr>
+        <tr class="click"><td><b>Client Portal</b></td><td>Holdings</td><td><span class="pill" style="background:var(--nonsei)">AddVantage</span></td><td>sei_feed · <b>EOD Positions</b></td><td class="mono" style="font-size:11px">SEI→PBDW→Portal</td><td><span class="pill" style="background:var(--batch)">Batch</span></td><td><span class="pill" style="background:var(--outbound)">OUT</span></td><td>EOD</td><td><span class="pill" style="background:var(--ok)">→ SEI</span></td></tr>
+        <tr class="click"><td><b>Pivotal CRM</b></td><td>Interested Parties</td><td><span class="pill" style="background:var(--nonsei)">AddVantage</span></td><td>sei_feed · <b>Client</b></td><td class="mono" style="font-size:11px">SEI SWP→Pivotal</td><td><span class="pill" style="background:var(--batch)">Batch</span></td><td><span class="pill" style="background:var(--outbound)">OUT</span></td><td>EOD</td><td><span class="pill" style="background:var(--ok)">→ SEI</span></td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="pane" id="iface-routing">
+      <div class="sec">Simple route — Accounts → Pivotal CRM (default chain)</div>
+      <div class="hopchain" style="margin-bottom:18px">
+        <div class="hop sei"><div class="ht">SEI SWP</div><div class="hs">source · target platform</div></div>
+        <span class="hoparrow">→<span class="hl">Client feed · EOD</span></span>
+        <div class="hop target"><div class="ht">Pivotal CRM</div><div class="hs">target · 3rd party</div></div>
+      </div>
+      <div class="sec">Complex multi-hop — Client Portal Holdings (graph for multi-hop routing)</div>
+      <div class="hopchain">
+        <div class="hop sei"><div class="ht">SEI SWP</div><div class="hs">source</div></div>
+        <span class="hoparrow">→<span class="hl">EOD Positions</span></span>
+        <div class="hop"><div class="ht">PBDW</div><div class="hs">warehouse · gold mart</div></div>
+        <span class="hoparrow">→<span class="hl">holdings extract</span></span>
+        <div class="hop target"><div class="ht">Client Portal</div><div class="hs">target · in-house</div></div>
+      </div>
+      <div class="sec">Legacy (reference) — what this replaces</div>
+      <div class="hopchain">
+        <div class="hop legacy"><div class="ht">AddVantage</div><div class="hs">legacy · being retired</div></div>
+        <span class="hoparrow">→<span class="hl">AddV→Pivotal</span></span>
+        <div class="hop target"><div class="ht">Pivotal CRM</div><div class="hs">target</div></div>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:16px"><h3>Migration gaps</h3>
+      <div class="ri"><span class="no">!</span> Interfaces whose AddVantage source has no matched SEI target (coverage: addvantage_interfaces_unmapped) — work still to do.</div>
+    </div>
+  </div>
+
+  <!-- ============ SEARCH ============ -->
+  <div class="screen" id="s-search">
+    <div class="h1">Search — Full-Text, All Modules</div>
+    <p class="lead">Unified full-text search (Oracle Text) over every artifact. Grouped by module, each result badged
+      with where it lives; click opens the item in its module. <span style="color:var(--muted)">Type "account" above.</span></p>
+    <div id="searchpage"><div style="background:var(--panel);border:1px dashed var(--border);border-radius:10px;padding:36px;text-align:center;color:var(--muted)">
+      <div style="font-size:16px;color:var(--navy);font-weight:600;margin-bottom:6px">Global Search</div>
+      Type in the box above (try <b>account</b>, <b>income</b>, <b>positions</b>) — results group by module with badges.</div></div>
+  </div>
+
+</div>
+
+<script>
+  function go(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+    document.getElementById('s-'+id).classList.add('on');
+    document.querySelectorAll('.modnav a').forEach(a=>a.classList.remove('active'));
+    const nav=document.getElementById('nav-'+id); if(nav)nav.classList.add('active');
+    document.getElementById('dd').classList.remove('show');
+    if(id==='search')renderSearch(document.getElementById('sb').value||'account');
+    window.scrollTo(0,0);
+  }
+  function ptab(btn,grp,id){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.querySelectorAll(`[id^="${grp}-"]`).forEach(p=>p.classList.remove('on'));document.getElementById(grp+'-'+id).classList.add('on');}
+  function ltab(btn,id){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.querySelectorAll('.lpane').forEach(p=>p.classList.remove('on'));document.getElementById('l-'+id).classList.add('on');}
+
+  // project filter (global)
+  let proj='all';
+  function setProj(p,btn){proj=p;btn.parentElement.querySelectorAll('.pf').forEach(b=>b.classList.remove('on'));btn.classList.add('on');}
+
+  // interface 360 view toggle + filter (mock)
+  function ifaceView(btn,v){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.getElementById('iface-table').classList.toggle('on',v==='table');document.getElementById('iface-routing').classList.toggle('on',v==='routing');}
+  function ifaceFilter(){/* mock: filters would narrow the table/routing */}
+
+  // api flow builder toggle
+  function apiBuilder(show){document.getElementById('api-builder').style.display=show?'block':'none';document.getElementById('api-flowlist').style.display=show?'none':'flex';}
+  // data pipeline builder toggle
+  function dataBuilder(show){document.getElementById('data-builder').style.display=show?'block':'none';document.getElementById('data-pipelist').style.display=show?'none':'flex';}
+
+  const MODMETA={api:['API 360','#159943'],data:['DATA 360','#0091bf'],datapoint:['DATAPOINT 360','#0f4775'],interface:['INTERFACE 360','#b8528a'],loader:['LOADERS','#7c3aed'],pii:['PII','#c1113a']};
+  const INDEX=[
+    {m:'api',n:'POST /account/create',s:'real-time · produces accountNumber',mode:'rt'},
+    {m:'api',n:'account_retrieve',s:'API flow · real-time',mode:'rt',kw:'account'},
+    {m:'data',n:'Account',s:'inbound feed · 32 fields',proj:'SEI'},
+    {m:'data',n:'ACCOUNT_NUMBER',s:'field · Account feed · CHAR(17)',proj:'SEI'},
+    {m:'data',n:'Accounts → Pivotal CRM',s:'batch pipeline · EOD · outbound',mode:'bt',kw:'account'},
+    {m:'data',n:'sei_gld_accounts',s:'dbt gold mart · 150 pipelines',kw:'account'},
+    {m:'datapoint',n:'account_number',s:'datapoint · 42× · KEY · IN+OUT'},
+    {m:'data',n:'Adhoc Income Loader',s:'outbound loader · Income',proj:'SEI',kw:'income'},
+    {m:'datapoint',n:'income_realized',s:'datapoint · outbound',kw:'income'},
+    {m:'data',n:'End of Day Positions',s:'inbound feed · 18 fields',proj:'SEI',kw:'positions'},
+    {m:'datapoint',n:'market_value',s:'datapoint · 22×',kw:'positions'},
+    {m:'interface',n:'Pivotal CRM Accounts',s:'AddVantage → SEI Client feed',kw:'account'},
+    {m:'pii',n:'Client Name',s:'Direct Identifier · ACCOUNT_DISPLAY_NAME',kw:'account'},
+  ];
+  function matches(q){const ql=q.toLowerCase();return INDEX.filter(r=>r.n.toLowerCase().includes(ql)||r.s.toLowerCase().includes(ql)||(r.kw||'').includes(ql));}
+  function onType(q){const dd=document.getElementById('dd');if(!q){dd.classList.remove('show');return;}const r=matches(q).slice(0,6);dd.innerHTML='<div class="ddh">Quick preview</div>'+(r.length?r.map(x=>{const m=MODMETA[x.m];return `<div class="ddrow" onclick="go('${x.m}')"><span class="mbadge" style="background:${m[1]}">${m[0]}</span><div><div style="font-size:13px;font-weight:600;color:var(--navy)">${x.n}</div><div style="font-size:11px;color:var(--muted)">${x.s}</div></div></div>`}).join("")+`<div class="ddfoot" onclick="go('search')">See all ${matches(q).length} results →</div>`:'<div class="ddrow" style="color:var(--muted)">No matches</div>');dd.classList.add('show');}
+  function renderSearch(q){const all=matches(q);const byMod={};all.forEach(r=>{(byMod[r.m]=byMod[r.m]||[]).push(r);});const order=['api','data','datapoint','interface','loader','pii'];document.getElementById('searchpage').innerHTML=`<div style="font-size:13px;color:var(--sub);margin-bottom:16px"><b>${all.length}</b> results for "${q}"</div>`+order.filter(m=>byMod[m]).map(m=>{const meta=MODMETA[m];return `<div style="margin-bottom:22px"><h2 style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;gap:9px;margin:0 0 9px;padding-bottom:7px;border-bottom:2px solid var(--border)"><span style="width:10px;height:10px;border-radius:50%;background:${meta[1]}"></span>${meta[0]}<span style="margin-left:auto;font-size:11px;color:var(--muted);font-weight:600">${byMod[m].length}</span></h2>${byMod[m].map(r=>`<div onclick="go('${m}')" style="display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:11px 15px;margin-bottom:8px;cursor:pointer"><span class="mbadge" style="background:${meta[1]}">${meta[0]}</span><div><div style="font-size:14px;font-weight:600;color:var(--navy)">${r.n}</div><div style="font-size:12px;color:var(--sub)">${r.s}</div></div>${r.mode?`<span class="modebadge ${r.mode}" style="margin-left:auto">${r.mode==='rt'?'REAL-TIME':'BATCH'}</span>`:''}${r.proj?`<span style="margin-left:${r.mode?'8px':'auto'};font-size:8px;font-weight:700;color:#fff;background:#0091bf;padding:2px 6px;border-radius:3px">${r.proj}</span>`:''}<span style="color:var(--muted);font-size:18px;margin-left:8px">›</span></div>`).join("")}</div>`}).join("");}
+  document.addEventListener('click',e=>{if(!e.target.closest('.searchwrap'))document.getElementById('dd').classList.remove('show');});
+</script>
+</body>
+</html>
