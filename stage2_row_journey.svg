@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1700 940" width="1700" height="940" font-family="Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif">
+
+  <defs>
+    <style>
+      .serif { font-family: Georgia, 'Iowan Old Style', 'Times New Roman', serif; }
+      .m     { font-family: 'IBM Plex Mono', 'SF Mono', Menlo, Consolas, monospace; }
+      .ink   { fill: #10161D; }
+      .slate { fill: #5A6672; }
+      .mute  { fill: #8D98A3; }
+      .fname { font-family: 'IBM Plex Mono', 'SF Mono', Menlo, Consolas, monospace; font-size: 10.5px; fill: #7B8792; }
+      .fval  { font-family: 'IBM Plex Mono', 'SF Mono', Menlo, Consolas, monospace; font-size: 10.5px; fill: #1B2530; }
+      .fam   { font-family: 'IBM Plex Mono', 'SF Mono', Menlo, Consolas, monospace; font-size: 9.5px; fill: #A6192E; letter-spacing: 1.6px; }
+      .op    { font-family: 'IBM Plex Mono', 'SF Mono', Menlo, Consolas, monospace; font-size: 10.5px; fill: #33414F; }
+    </style>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#A8B2BC"/>
+    </marker>
+  </defs>
+
+  <rect width="1700" height="940" fill="#EEF0F3"/>
+
+  <!-- ══ HEADER ══ -->
+  <text class="m" x="60" y="42" font-size="11.5" fill="#A6192E" letter-spacing="2.4">PBDW · ONE ROW, END TO END</text>
+  <text class="serif ink" x="60" y="82" font-size="32">What actually happens between raw and enriched</text>
+  <text class="slate" x="60" y="110" font-size="14.5">Tracing a single holding: 1,500 shares of Apple in account 0012345-001, business date 31 Mar 2026.</text>
+  <line x1="60" y1="140" x2="1640" y2="140" stroke="#D2D8DE"/>
+
+  <!-- ══ FLOW ARROWS ══ -->
+  <path d="M 348 228 H 492" stroke="#A8B2BC" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
+  <path d="M 828 228 H 972" stroke="#A8B2BC" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
+
+  <!-- ══════════ SRC PANEL ══════════ -->
+  <rect x="60" y="210" width="280" height="262" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+  <path d="M66 210 H334 a6 6 0 0 1 6 6 V246 H60 V216 a6 6 0 0 1 6 -6 z" fill="#10161D"/>
+  <rect x="60" y="210" width="280" height="4" rx="2" fill="#8D98A3"/>
+  <text class="m" x="76" y="234" font-size="11" fill="#FFFFFF" letter-spacing="0.8"><tspan fill="#E0566E">SRC</tspan> · SWP_POSITION_RAW</text>
+  <text class="m mute" x="76" y="266" font-size="10">external table · no logic applied</text>
+
+  <text class="fname" x="76" y="292">ACCT_NBR</text><text class="fval" x="200" y="292">'  0012345-001 '</text>
+  <text class="fname" x="76" y="311">SEC_ID</text><text class="fval" x="200" y="311">'037833100'</text>
+  <text class="fname" x="76" y="330">QTY</text><text class="fval" x="200" y="330">'1500.000'</text>
+  <text class="fname" x="76" y="349">PRICE</text><text class="fval" x="200" y="349">'189.4500'</text>
+  <text class="fname" x="76" y="368">CCY</text><text class="fval" x="200" y="368">'USD'</text>
+  <text class="fname" x="76" y="387">POS_DT</text><text class="fval" x="200" y="387" fill="#A6192E">'03/31/2026'</text>
+  <text class="fname" x="76" y="406">FILE_NAME</text><text class="fval" x="200" y="406">swp_pos_...dat</text>
+  <text class="fname" x="76" y="425">FILE_TS</text><text class="fval" x="200" y="425">23:04:11</text>
+  <text class="fname" x="76" y="444">ROW_NUM</text><text class="fval" x="200" y="444">884217</text>
+
+  <text class="m mute" x="76" y="500" font-size="10">If you can't reproduce the</text>
+  <text class="m mute" x="76" y="516" font-size="10">vendor file from this table,</text>
+  <text class="m mute" x="76" y="532" font-size="10">the layer has failed.</text>
+
+  <!-- ══ GUTTER A ══ -->
+  <text class="m" x="352" y="266" font-size="9.5" fill="#A6192E" letter-spacing="1.6">STAGE 1 DOES</text>
+  <text class="op" x="352" y="292"><tspan fill="#A6192E">›</tspan> trim, upper, nulls</text>
+  <text class="op" x="352" y="311"><tspan fill="#A6192E">›</tspan> cast DATE / NUMBER</text>
+  <text class="op" x="352" y="330"><tspan fill="#A6192E">›</tspan> canonical rename</text>
+  <text class="op" x="352" y="349"><tspan fill="#A6192E">›</tspan> dedup on key</text>
+  <text class="op" x="352" y="368"><tspan fill="#A6192E">›</tspan> hash + stamp batch</text>
+  <text class="op" x="352" y="387"><tspan fill="#A6192E">›</tspan> flag DQ, keep all</text>
+
+  <!-- ══════════ STG1 PANEL ══════════ -->
+  <rect x="500" y="210" width="320" height="300" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+  <path d="M506 210 H814 a6 6 0 0 1 6 6 V246 H500 V216 a6 6 0 0 1 6 -6 z" fill="#10161D"/>
+  <rect x="500" y="210" width="320" height="4" rx="2" fill="#33506B"/>
+  <text class="m" x="516" y="234" font-size="11" fill="#FFFFFF" letter-spacing="0.8"><tspan fill="#E0566E">STG1</tspan> · STG_SWP__POSITION</text>
+  <text class="m mute" x="516" y="266" font-size="10">one row per source row · no joins</text>
+
+  <text class="fname" x="516" y="292">SRC_ACCOUNT_ID</text><text class="fval" x="672" y="292">0012345-001</text>
+  <text class="fname" x="516" y="311">SRC_SECURITY_ID</text><text class="fval" x="672" y="311">037833100</text>
+  <text class="fname" x="516" y="330">QUANTITY</text><text class="fval" x="672" y="330">1500.00000000</text>
+  <text class="fname" x="516" y="349">PRICE_LOCAL</text><text class="fval" x="672" y="349">189.450000</text>
+  <text class="fname" x="516" y="368">LOCAL_CCY</text><text class="fval" x="672" y="368">USD</text>
+  <text class="fname" x="516" y="387">AS_OF_DT</text><text class="fval" x="672" y="387" fill="#A6192E">2026-03-31</text>
+  <text class="fname" x="516" y="406">SRC_SYSTEM</text><text class="fval" x="672" y="406">SWP</text>
+  <text class="fname" x="516" y="425">BATCH_ID</text><text class="fval" x="672" y="425">20260331_02</text>
+  <text class="fname" x="516" y="444">ROW_HASH</text><text class="fval" x="672" y="444">9F3A...C481</text>
+  <text class="fname" x="516" y="463">LOAD_TS</text><text class="fval" x="672" y="463">2026-03-31 23:41</text>
+  <text class="fname" x="516" y="482">DQ_RULE_FAILED</text><text class="fval" x="672" y="482">(none)</text>
+
+  <text class="m mute" x="516" y="538" font-size="10">A bad date lands as NULL with a</text>
+  <text class="m mute" x="516" y="554" font-size="10">flag. It does not stop the batch.</text>
+
+  <!-- ══ GUTTER B ══ -->
+  <text class="m" x="832" y="266" font-size="9.5" fill="#A6192E" letter-spacing="1.6">STAGE 2 DOES</text>
+  <text class="op" x="832" y="292"><tspan fill="#A6192E">›</tspan> conform security</text>
+  <text class="op" x="832" y="311"><tspan fill="#A6192E">›</tspan> conform account</text>
+  <text class="op" x="832" y="330"><tspan fill="#A6192E">›</tspan> resolve party keys</text>
+  <text class="op" x="832" y="349"><tspan fill="#A6192E">›</tspan> apply FX as-of</text>
+  <text class="op" x="832" y="368"><tspan fill="#A6192E">›</tspan> derive value &amp; G/L</text>
+  <text class="op" x="832" y="387"><tspan fill="#A6192E">›</tspan> close prior version</text>
+  <text class="op" x="832" y="406"><tspan fill="#A6192E">›</tspan> score DQ rules</text>
+
+  <!-- ══════════ STG2 PANEL ══════════ -->
+  <rect x="980" y="210" width="660" height="432" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+  <path d="M986 210 H1634 a6 6 0 0 1 6 6 V246 H980 V216 a6 6 0 0 1 6 -6 z" fill="#10161D"/>
+  <rect x="980" y="210" width="660" height="4" rx="2" fill="#A6192E"/>
+  <text class="m" x="996" y="234" font-size="11" fill="#FFFFFF" letter-spacing="0.8"><tspan fill="#E0566E">STG2</tspan> · INT_POSITION_ENRICHED</text>
+  <text class="m mute" x="996" y="266" font-size="10">joined, derived, versioned, scored</text>
+
+  <!-- left column -->
+  <text class="fam" x="996" y="292">IDENTITY</text>
+  <text class="fname" x="996" y="311">POSITION_SK</text><text class="fval" x="1146" y="311">0x8A1F4C...D2</text>
+
+  <text class="fam" x="996" y="337">SOURCE TRAIL</text>
+  <text class="fname" x="996" y="356">SRC_SYSTEM</text><text class="fval" x="1146" y="356">SWP</text>
+  <text class="fname" x="996" y="375">SRC_ACCOUNT_ID</text><text class="fval" x="1146" y="375">0012345-001</text>
+  <text class="fname" x="996" y="394">SRC_SECURITY_ID</text><text class="fval" x="1146" y="394">037833100</text>
+
+  <text class="fam" x="996" y="420">CONFORMED LINKS</text>
+  <text class="fname" x="996" y="439">ACCOUNT_SK</text><text class="fval" x="1146" y="439">0x4B70E1...9C</text>
+  <text class="fname" x="996" y="458">PARTY_SK</text><text class="fval" x="1146" y="458">0xC3D8A2...07</text>
+  <text class="fname" x="996" y="477">RELATIONSHIP_SK</text><text class="fval" x="1146" y="477">0x11FE64...B8</text>
+  <text class="fname" x="996" y="496">SECURITY_SK</text><text class="fval" x="1146" y="496">0x7D2093...4A</text>
+
+  <text class="fam" x="996" y="522">ENRICHED ATTRIBUTES</text>
+  <text class="fname" x="996" y="541">ASSET_CLASS_CD</text><text class="fval" x="1146" y="541">EQUITY</text>
+  <text class="fname" x="996" y="560">GICS_SECTOR_CD</text><text class="fval" x="1146" y="560">45</text>
+  <text class="fname" x="996" y="579">LOCAL_CCY</text><text class="fval" x="1146" y="579">USD</text>
+  <text class="fname" x="996" y="598">BASE_CCY</text><text class="fval" x="1146" y="598">USD</text>
+  <text class="fname" x="996" y="617">FX_RATE</text><text class="fval" x="1146" y="617">1.00000000</text>
+
+  <line x1="1306" y1="284" x2="1306" y2="626" stroke="#E4E8EC"/>
+
+  <!-- right column -->
+  <text class="fam" x="1330" y="292">DERIVED MEASURES</text>
+  <text class="fname" x="1330" y="311">QUANTITY</text><text class="fval" x="1480" y="311">1,500.00000000</text>
+  <text class="fname" x="1330" y="330">MARKET_VALUE_LOCAL</text><text class="fval" x="1480" y="330">284,175.00</text>
+  <text class="fname" x="1330" y="349">MARKET_VALUE_BASE</text><text class="fval" x="1480" y="349" fill="#A6192E">284,175.00</text>
+  <text class="fname" x="1330" y="368">COST_BASIS_BASE</text><text class="fval" x="1480" y="368">210,400.00</text>
+  <text class="fname" x="1330" y="387">UNREALIZED_GL_BASE</text><text class="fval" x="1480" y="387" fill="#A6192E">73,775.00</text>
+
+  <text class="fam" x="1330" y="413">BITEMPORAL</text>
+  <text class="fname" x="1330" y="432">AS_OF_DT</text><text class="fval" x="1480" y="432">2026-03-31</text>
+  <text class="fname" x="1330" y="451">EFFECTIVE_FROM_TS</text><text class="fval" x="1480" y="451">2026-03-31 23:41</text>
+  <text class="fname" x="1330" y="470">EFFECTIVE_TO_TS</text><text class="fval" x="1480" y="470">9999-12-31</text>
+  <text class="fname" x="1330" y="489">VALID_FROM_TS</text><text class="fval" x="1480" y="489">2026-03-31 23:41</text>
+  <text class="fname" x="1330" y="508">IS_CURRENT_FLG</text><text class="fval" x="1480" y="508">Y</text>
+
+  <text class="fam" x="1330" y="534">TRUST</text>
+  <text class="fname" x="1330" y="553">DQ_SCORE</text><text class="fval" x="1480" y="553">100.00</text>
+  <text class="fname" x="1330" y="572">DQ_SEVERITY</text><text class="fval" x="1480" y="572">PASS</text>
+  <text class="fname" x="1330" y="591">UNRESOLVED_KEY_FLG</text><text class="fval" x="1480" y="591">N</text>
+  <text class="fname" x="1330" y="610">BATCH_ID</text><text class="fval" x="1480" y="610">20260331_02</text>
+
+  <text class="m mute" x="996" y="672" font-size="10.5">The 30 Mar version of this row is closed out in the same run: EFFECTIVE_TO_TS is set and IS_CURRENT_FLG flips to 'N'.</text>
+
+  <!-- ══ BOTTOM BAND ══ -->
+  <line x1="60" y1="712" x2="1640" y2="712" stroke="#D2D8DE"/>
+
+  <rect x="60" y="740" width="760" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+  <rect x="60" y="740" width="4" height="150" rx="2" fill="#A6192E"/>
+  <text class="ink" x="92" y="774" font-size="17" font-weight="600">When a lookup misses, the row still lands</text>
+  <text class="slate" x="92" y="805" font-size="13">If <tspan class="m" font-size="12">SECURITY_SK</tspan> can't be resolved, the row is written with the key null,</text>
+  <text class="slate" x="92" y="827" font-size="13"><tspan class="m" font-size="12">UNRESOLVED_KEY_FLG = 'Y'</tspan> and <tspan class="m" font-size="12">DQ_SEVERITY = 'FAIL'</tspan>. It is excluded from Gold by a</text>
+  <text class="slate" x="92" y="849" font-size="13">predicate in the mart — never deleted here. Deleting it would destroy the evidence</text>
+  <text class="slate" x="92" y="871" font-size="13">trail that reconciliation and NYDFS review both depend on.</text>
+
+  <rect x="860" y="740" width="250" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+  <text class="m" x="884" y="772" font-size="9.5" fill="#8D98A3" letter-spacing="1.8">STG1</text>
+  <text class="serif ink" x="884" y="802" font-size="20">Can't lose data</text>
+  <text class="slate" x="884" y="828" font-size="12">Nothing is dropped. Bad</text>
+  <text class="slate" x="884" y="846" font-size="12">rows are flagged and</text>
+  <text class="slate" x="884" y="864" font-size="12">carried forward.</text>
+
+  <rect x="1130" y="740" width="250" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+  <text class="m" x="1154" y="772" font-size="9.5" fill="#A6192E" letter-spacing="1.8">STG2</text>
+  <text class="serif ink" x="1154" y="802" font-size="20">Can't hide data</text>
+  <text class="slate" x="1154" y="828" font-size="12">Unresolved keys land</text>
+  <text class="slate" x="1154" y="846" font-size="12">visibly, with a reason</text>
+  <text class="slate" x="1154" y="864" font-size="12">attached to the row.</text>
+
+  <rect x="1400" y="740" width="240" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+  <text class="m" x="1424" y="772" font-size="9.5" fill="#8D98A3" letter-spacing="1.8">GOLD</text>
+  <text class="serif ink" x="1424" y="802" font-size="20">Can be opinionated</text>
+  <text class="slate" x="1424" y="828" font-size="12">Filters to what's trusted.</text>
+  <text class="slate" x="1424" y="846" font-size="12">The only layer allowed</text>
+  <text class="slate" x="1424" y="864" font-size="12">to exclude a row.</text>
+
+</svg>
