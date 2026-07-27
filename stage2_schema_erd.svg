@@ -1,0 +1,218 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1560 1020" width="1560" height="1020" font-family="Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif">
+
+  <defs>
+    <style>
+      .serif { font-family: Georgia, 'Iowan Old Style', 'Times New Roman', serif; }
+      .mono  { font-family: 'IBM Plex Mono', 'SF Mono', Menlo, Consolas, monospace; }
+      .ink   { fill: #10161D; }
+      .slate { fill: #5A6672; }
+      .mute  { fill: #8D98A3; }
+      .tname { font-family: 'IBM Plex Mono', 'SF Mono', Menlo, Consolas, monospace; font-size: 12.5px; fill: #FFFFFF; letter-spacing: 0.6px; }
+      .grain { font-family: 'IBM Plex Mono', 'SF Mono', Menlo, Consolas, monospace; font-size: 10.5px; fill: #8D98A3; letter-spacing: 0.8px; }
+      .col   { font-family: 'IBM Plex Mono', 'SF Mono', Menlo, Consolas, monospace; font-size: 11.5px; fill: #33414F; }
+      .key   { font-family: 'IBM Plex Mono', 'SF Mono', Menlo, Consolas, monospace; font-size: 10px; letter-spacing: 0.6px; }
+      .edge  { stroke: #A8B2BC; stroke-width: 1.5; fill: none; }
+    </style>
+    <marker id="crow" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="11" markerHeight="11" orient="auto">
+      <path d="M0 6 L11 0 M0 6 L11 6 M0 6 L11 12" stroke="#A8B2BC" stroke-width="1.4" fill="none"/>
+    </marker>
+  </defs>
+
+  <rect width="1560" height="1020" fill="#EEF0F3"/>
+
+  <!-- ══ HEADER ══ -->
+  <text class="mono" x="60" y="42" font-size="11.5" fill="#A6192E" letter-spacing="2.4">PBDW · STG2 SCHEMA · ORACLE</text>
+  <text class="serif ink" x="60" y="82" font-size="32">Stage 2 physical structure and associations</text>
+  <text class="slate" x="60" y="110" font-size="14.5">Conform models resolve keys. Bridge resolves many-to-many. Enrich models hang off them. Every association below is many-to-one, upward.</text>
+  <line x1="60" y1="140" x2="1500" y2="140" stroke="#D2D8DE"/>
+
+  <text class="mono mute" x="60" y="176" font-size="10.5" letter-spacing="2">TIER 1 — CONFORM &amp; REFERENCE</text>
+  <text class="mono mute" x="60" y="426" font-size="10.5" letter-spacing="2">TIER 2 — BRIDGE &amp; ACCOUNT</text>
+  <text class="mono mute" x="60" y="676" font-size="10.5" letter-spacing="2">TIER 3 — ENRICH (FACTS)</text>
+
+  <!-- ══ EDGES (drawn under boxes) ══ -->
+  <g class="edge">
+    <!-- REL -> BRG -->
+    <path d="M 300 350 V 415 H 330 V 440" marker-end="url(#crow)"/>
+    <!-- PARTY -> BRG -->
+    <path d="M 560 350 V 415 H 490 V 440" marker-end="url(#crow)"/>
+    <!-- PARTY -> ACCOUNT -->
+    <path d="M 640 350 V 398 H 700 V 440" marker-end="url(#crow)"/>
+    <!-- REL -> ACCOUNT -->
+    <path d="M 180 350 V 378 H 860 V 440" marker-end="url(#crow)"/>
+
+    <!-- SECURITY bus -->
+    <path d="M 1000 350 V 690" marker-end="url(#crow)"/>
+    <path d="M 1000 612 H 200"/>
+    <path d="M 200 612 V 690" marker-end="url(#crow)"/>
+    <path d="M 580 612 V 690" marker-end="url(#crow)"/>
+
+    <!-- FX bus -->
+    <path d="M 1360 350 V 690" marker-end="url(#crow)"/>
+    <path d="M 1360 632 H 260"/>
+    <path d="M 260 632 V 690" marker-end="url(#crow)"/>
+    <path d="M 640 632 V 690" marker-end="url(#crow)"/>
+
+    <!-- ACCOUNT bus -->
+    <path d="M 780 590 V 655"/>
+    <path d="M 140 655 H 1280"/>
+    <path d="M 140 655 V 690" marker-end="url(#crow)"/>
+    <path d="M 520 655 V 690" marker-end="url(#crow)"/>
+    <path d="M 900 655 V 690" marker-end="url(#crow)"/>
+    <path d="M 1280 655 V 690" marker-end="url(#crow)"/>
+  </g>
+
+  <text class="mono mute" x="1012" y="600" font-size="10">SECURITY_SK</text>
+  <text class="mono mute" x="1372" y="620" font-size="10">FX_RATE (FROM/TO/AS_OF)</text>
+  <text class="mono mute" x="792" y="645" font-size="10">ACCOUNT_SK</text>
+
+  <!-- ══ TIER 1 ══ -->
+
+  <!-- INT_RELATIONSHIP_CONFORMED -->
+  <g>
+    <rect x="60" y="200" width="320" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+    <path d="M66 200 H374 a6 6 0 0 1 6 6 V234 H60 V206 a6 6 0 0 1 6 -6 z" fill="#10161D"/>
+    <rect x="60" y="200" width="320" height="4" rx="2" fill="#33506B"/>
+    <text class="tname" x="76" y="224">INT_RELATIONSHIP_CONFORMED</text>
+    <text class="grain" x="76" y="256">grain · one relationship</text>
+    <text class="key" x="76" y="282" fill="#A6192E">PK</text><text class="col" x="106" y="282">RELATIONSHIP_SK</text>
+    <text class="key" x="76" y="303" fill="#33506B">BK</text><text class="col" x="106" y="303">SRC_RELATIONSHIP_ID</text>
+    <text class="col" x="106" y="324">SEGMENT_CD, RELATIONSHIP_NM</text>
+  </g>
+
+  <!-- INT_PARTY_RESOLVED -->
+  <g>
+    <rect x="440" y="200" width="320" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+    <path d="M446 200 H754 a6 6 0 0 1 6 6 V234 H440 V206 a6 6 0 0 1 6 -6 z" fill="#10161D"/>
+    <rect x="440" y="200" width="320" height="4" rx="2" fill="#33506B"/>
+    <text class="tname" x="456" y="224">INT_PARTY_RESOLVED</text>
+    <text class="grain" x="456" y="256">grain · one legal party</text>
+    <text class="key" x="456" y="282" fill="#A6192E">PK</text><text class="col" x="486" y="282">PARTY_SK</text>
+    <text class="key" x="456" y="303" fill="#33506B">BK</text><text class="col" x="486" y="303">SRC_PARTY_ID</text>
+    <text class="col" x="486" y="324">LEGAL_NM, KYC_STATUS_CD, PII_CLASS</text>
+  </g>
+
+  <!-- INT_SECURITY_CONFORMED -->
+  <g>
+    <rect x="820" y="200" width="320" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+    <path d="M826 200 H1134 a6 6 0 0 1 6 6 V234 H820 V206 a6 6 0 0 1 6 -6 z" fill="#10161D"/>
+    <rect x="820" y="200" width="320" height="4" rx="2" fill="#33506B"/>
+    <text class="tname" x="836" y="224">INT_SECURITY_CONFORMED</text>
+    <text class="grain" x="836" y="256">grain · one instrument</text>
+    <text class="key" x="836" y="282" fill="#A6192E">PK</text><text class="col" x="866" y="282">SECURITY_SK</text>
+    <text class="key" x="836" y="303" fill="#33506B">BK</text><text class="col" x="866" y="303">CUSIP / ISIN / SEDOL</text>
+    <text class="col" x="866" y="324">ASSET_CLASS_CD, GICS_SECTOR_CD</text>
+  </g>
+
+  <!-- REF_FX_RATE -->
+  <g>
+    <rect x="1200" y="200" width="320" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+    <path d="M1206 200 H1514 a6 6 0 0 1 6 6 V234 H1200 V206 a6 6 0 0 1 6 -6 z" fill="#10161D"/>
+    <rect x="1200" y="200" width="320" height="4" rx="2" fill="#8D98A3"/>
+    <text class="tname" x="1216" y="224">REF_FX_RATE</text>
+    <text class="grain" x="1216" y="256">grain · currency pair × date</text>
+    <text class="key" x="1216" y="282" fill="#A6192E">PK</text><text class="col" x="1246" y="282">FROM_CCY, TO_CCY, AS_OF_DT</text>
+    <text class="col" x="1246" y="303">FX_RATE</text>
+    <text class="col" x="1246" y="324">RATE_SOURCE_CD</text>
+  </g>
+
+  <!-- ══ TIER 2 ══ -->
+
+  <!-- BRG_PARTY_RELATIONSHIP -->
+  <g>
+    <rect x="250" y="440" width="320" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+    <path d="M256 440 H564 a6 6 0 0 1 6 6 V474 H250 V446 a6 6 0 0 1 6 -6 z" fill="#10161D"/>
+    <rect x="250" y="440" width="320" height="4" rx="2" fill="#7A6A4F"/>
+    <text class="tname" x="266" y="464">BRG_PARTY_RELATIONSHIP</text>
+    <text class="grain" x="266" y="496">grain · party × relationship</text>
+    <text class="key" x="266" y="522" fill="#A6192E">PK</text><text class="col" x="296" y="522">PARTY_SK, RELATIONSHIP_SK</text>
+    <text class="col" x="296" y="543">OWNERSHIP_PCT</text>
+    <text class="col" x="296" y="564">ROLE_CD</text>
+  </g>
+
+  <!-- INT_ACCOUNT_CONFORMED -->
+  <g>
+    <rect x="620" y="440" width="320" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+    <path d="M626 440 H934 a6 6 0 0 1 6 6 V474 H620 V446 a6 6 0 0 1 6 -6 z" fill="#10161D"/>
+    <rect x="620" y="440" width="320" height="4" rx="2" fill="#33506B"/>
+    <text class="tname" x="636" y="464">INT_ACCOUNT_CONFORMED</text>
+    <text class="grain" x="636" y="496">grain · one account</text>
+    <text class="key" x="636" y="522" fill="#A6192E">PK</text><text class="col" x="666" y="522">ACCOUNT_SK</text>
+    <text class="key" x="636" y="543" fill="#5A6672">FK</text><text class="col" x="666" y="543">PARTY_SK, RELATIONSHIP_SK</text>
+    <text class="col" x="666" y="564">BASE_CCY, ACCOUNT_TYPE_CD</text>
+  </g>
+
+  <!-- ══ TIER 3 ══ -->
+
+  <!-- INT_POSITION_ENRICHED -->
+  <g>
+    <rect x="60" y="690" width="320" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+    <path d="M66 690 H374 a6 6 0 0 1 6 6 V724 H60 V696 a6 6 0 0 1 6 -6 z" fill="#10161D"/>
+    <rect x="60" y="690" width="320" height="4" rx="2" fill="#A6192E"/>
+    <text class="tname" x="76" y="714">INT_POSITION_ENRICHED</text>
+    <text class="grain" x="76" y="746">grain · account × security × date</text>
+    <text class="key" x="76" y="772" fill="#A6192E">PK</text><text class="col" x="106" y="772">POSITION_SK, EFFECTIVE_FROM_TS</text>
+    <text class="key" x="76" y="793" fill="#5A6672">FK</text><text class="col" x="106" y="793">ACCOUNT_SK, SECURITY_SK</text>
+    <text class="col" x="106" y="814">MARKET_VALUE_BASE, UNREAL_GL_BASE</text>
+  </g>
+
+  <!-- INT_TRANSACTION_ENRICHED -->
+  <g>
+    <rect x="440" y="690" width="320" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+    <path d="M446 690 H754 a6 6 0 0 1 6 6 V724 H440 V696 a6 6 0 0 1 6 -6 z" fill="#10161D"/>
+    <rect x="440" y="690" width="320" height="4" rx="2" fill="#A6192E"/>
+    <text class="tname" x="456" y="714">INT_TRANSACTION_ENRICHED</text>
+    <text class="grain" x="456" y="746">grain · one transaction event</text>
+    <text class="key" x="456" y="772" fill="#A6192E">PK</text><text class="col" x="486" y="772">TRANSACTION_SK</text>
+    <text class="key" x="456" y="793" fill="#5A6672">FK</text><text class="col" x="486" y="793">ACCOUNT_SK, SECURITY_SK</text>
+    <text class="col" x="486" y="814">EVENT_SEQ_NO, REVERSAL_OF_SK</text>
+  </g>
+
+  <!-- INT_TAX_LOT_ENRICHED -->
+  <g>
+    <rect x="820" y="690" width="320" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+    <path d="M826 690 H1134 a6 6 0 0 1 6 6 V724 H820 V696 a6 6 0 0 1 6 -6 z" fill="#10161D"/>
+    <rect x="820" y="690" width="320" height="4" rx="2" fill="#A6192E"/>
+    <text class="tname" x="836" y="714">INT_TAX_LOT_ENRICHED</text>
+    <text class="grain" x="836" y="746">grain · one open tax lot</text>
+    <text class="key" x="836" y="772" fill="#A6192E">PK</text><text class="col" x="866" y="772">TAX_LOT_SK</text>
+    <text class="key" x="836" y="793" fill="#5A6672">FK</text><text class="col" x="866" y="793">ACCOUNT_SK, SECURITY_SK</text>
+    <text class="col" x="866" y="814">COST_BASIS_BASE, OPEN_DT</text>
+  </g>
+
+  <!-- INT_CASH_ACTIVITY_ENRICHED -->
+  <g>
+    <rect x="1200" y="690" width="320" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+    <path d="M1206 690 H1514 a6 6 0 0 1 6 6 V724 H1200 V696 a6 6 0 0 1 6 -6 z" fill="#10161D"/>
+    <rect x="1200" y="690" width="320" height="4" rx="2" fill="#A6192E"/>
+    <text class="tname" x="1216" y="714">INT_CASH_ACTIVITY_ENRICHED</text>
+    <text class="grain" x="1216" y="746">grain · account × date × type</text>
+    <text class="key" x="1216" y="772" fill="#A6192E">PK</text><text class="col" x="1246" y="772">CASH_ACTIVITY_SK</text>
+    <text class="key" x="1216" y="793" fill="#5A6672">FK</text><text class="col" x="1246" y="793">ACCOUNT_SK</text>
+    <text class="col" x="1246" y="814">AMOUNT_BASE, CASH_TYPE_CD</text>
+  </g>
+
+  <!-- ══ LEGEND ══ -->
+  <line x1="60" y1="885" x2="1500" y2="885" stroke="#D2D8DE"/>
+
+  <g class="edge" stroke-width="1.4">
+    <path d="M 76 916 H 104" marker-end="url(#crow)"/>
+  </g>
+  <text class="slate" x="126" y="920" font-size="12.5">crow's foot marks the <tspan font-weight="600">many</tspan> side</text>
+
+  <text class="key" x="400" y="920" fill="#A6192E">PK</text>
+  <text class="slate" x="428" y="920" font-size="12.5">surrogate primary key</text>
+  <text class="key" x="620" y="920" fill="#33506B">BK</text>
+  <text class="slate" x="648" y="920" font-size="12.5">business key from source</text>
+  <text class="key" x="870" y="920" fill="#5A6672">FK</text>
+  <text class="slate" x="898" y="920" font-size="12.5">conformed foreign key</text>
+
+  <rect x="1100" y="911" width="16" height="4" rx="2" fill="#33506B"/><text class="slate" x="1124" y="920" font-size="12.5">conform</text>
+  <rect x="1196" y="911" width="16" height="4" rx="2" fill="#7A6A4F"/><text class="slate" x="1220" y="920" font-size="12.5">bridge</text>
+  <rect x="1282" y="911" width="16" height="4" rx="2" fill="#8D98A3"/><text class="slate" x="1306" y="920" font-size="12.5">reference</text>
+  <rect x="1384" y="911" width="16" height="4" rx="2" fill="#A6192E"/><text class="slate" x="1408" y="920" font-size="12.5">enrich</text>
+
+  <text class="mute" x="60" y="960" font-size="12.5">Omitted for readability: every enrich table also carries EFFECTIVE_FROM_TS / EFFECTIVE_TO_TS, VALID_FROM_TS / VALID_TO_TS, IS_CURRENT_FLG,</text>
+  <text class="mute" x="60" y="980" font-size="12.5">SRC_SYSTEM, SRC_*_ID, BATCH_ID, LOAD_TS, ROW_HASH and DQ_SCORE / DQ_SEVERITY / DQ_RULE_FAILED.</text>
+
+</svg>

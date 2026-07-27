@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 990" width="1600" height="990" font-family="Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif">
+
+  <defs>
+    <style>
+      .serif { font-family: Georgia, 'Iowan Old Style', 'Times New Roman', serif; }
+      .mono  { font-family: 'IBM Plex Mono', 'SF Mono', Menlo, Consolas, monospace; }
+      .ink   { fill: #10161D; }
+      .slate { fill: #5A6672; }
+      .red   { fill: #A6192E; }
+    </style>
+    <marker id="tip" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8D98A3"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="990" fill="#EEF0F3"/>
+
+  <!-- ══ HEADER ══ -->
+  <text class="mono red" x="64" y="42" font-size="11.5" letter-spacing="2.4">SWP MIGRATION · PBDW · STAGE 2</text>
+  <text class="serif ink" x="64" y="82" font-size="34">Where a raw holding becomes a record you can report on</text>
+  <text class="slate" x="64" y="110" font-size="15">Stage 2 answers five questions about every holding — once, centrally — so a thousand downstream consumers don't each answer them differently.</text>
+
+  <text class="mono" x="1536" y="42" font-size="12.5" text-anchor="end" letter-spacing="1.8">
+    <tspan fill="#8D98A3">STAGE 1</tspan><tspan fill="#B9C1C9">  ›  </tspan><tspan fill="#A6192E">STAGE 2</tspan><tspan fill="#B9C1C9">  ›  </tspan><tspan fill="#8D98A3">GOLD</tspan>
+  </text>
+
+  <line x1="64" y1="140" x2="1536" y2="140" stroke="#D2D8DE" stroke-width="1"/>
+
+  <!-- ══ GROUP LABELS ══ -->
+  <text class="mono" x="90" y="216" font-size="11" fill="#8D98A3" letter-spacing="1.9">WHO IT BELONGS TO</text>
+  <text class="mono" x="1190" y="316" font-size="11" fill="#8D98A3" letter-spacing="1.9">WHAT IT IS, AND WHAT IT'S WORTH</text>
+
+  <!-- ══ CONNECTOR BUSES ══ -->
+  <g stroke="#B9C1C9" stroke-width="1.6" fill="none">
+    <!-- left bus -->
+    <path d="M 560 480 H 480"/>
+    <path d="M 480 302 V 642"/>
+    <path d="M 480 302 H 410" marker-end="url(#tip)"/>
+    <path d="M 480 472 H 410" marker-end="url(#tip)"/>
+    <path d="M 480 642 H 410" marker-end="url(#tip)"/>
+    <!-- right bus -->
+    <path d="M 1040 480 H 1120"/>
+    <path d="M 1120 402 V 572"/>
+    <path d="M 1120 402 H 1190" marker-end="url(#tip)"/>
+    <path d="M 1120 572 H 1190" marker-end="url(#tip)"/>
+  </g>
+  <circle cx="480" cy="480" r="3.5" fill="#B9C1C9"/>
+  <circle cx="1120" cy="480" r="3.5" fill="#B9C1C9"/>
+
+  <!-- rollup chain -->
+  <g stroke="#C9CFD6" stroke-width="1.4" fill="none" stroke-dasharray="4 4">
+    <path d="M 250 364 V 404" marker-end="url(#tip)"/>
+    <path d="M 250 534 V 574" marker-end="url(#tip)"/>
+  </g>
+  <text class="mono" x="262" y="390" font-size="10.5" fill="#8D98A3" letter-spacing="1.1">rolls up to</text>
+  <text class="mono" x="262" y="560" font-size="10.5" fill="#8D98A3" letter-spacing="1.1">rolls up to</text>
+
+  <!-- ══ HUB ══ -->
+  <rect x="560" y="400" width="480" height="160" rx="7" fill="#10161D"/>
+  <text class="mono" x="800" y="440" font-size="11" fill="#E0566E" text-anchor="middle" letter-spacing="2.2">THE ENRICHED RECORD</text>
+  <text class="serif" x="800" y="480" font-size="29" fill="#FFFFFF" text-anchor="middle">One holding, fully described</text>
+  <text x="800" y="509" font-size="13.5" fill="#A9B3BD" text-anchor="middle">One row per account, per security, per business date.</text>
+  <text class="mono" x="800" y="535" font-size="11.5" fill="#6E7C89" text-anchor="middle" letter-spacing="0.8">STG2.INT_POSITION_ENRICHED</text>
+  <text x="800" y="592" font-size="12.5" fill="#7E8A96" text-anchor="middle">Every link below is many holdings to one record.</text>
+
+  <!-- ══ LEFT: ACCOUNT ══ -->
+  <rect x="90" y="240" width="320" height="124" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+  <text class="ink" x="112" y="277" font-size="19" font-weight="600">Which account holds it?</text>
+  <text class="mono red" x="112" y="301" font-size="11" letter-spacing="1.2">DIM_ACCOUNT · ACCOUNT_SK</text>
+  <text class="slate" x="112" y="325" font-size="12.5">Adds account type, base currency,</text>
+  <text class="slate" x="112" y="344" font-size="12.5">custodian and open date.</text>
+
+  <!-- ══ LEFT: PARTY ══ -->
+  <rect x="90" y="410" width="320" height="124" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+  <text class="ink" x="112" y="447" font-size="19" font-weight="600">Who ultimately owns it?</text>
+  <text class="mono red" x="112" y="471" font-size="11" letter-spacing="1.2">DIM_PARTY · PARTY_SK</text>
+  <text class="slate" x="112" y="495" font-size="12.5">Resolves the legal owner through</text>
+  <text class="slate" x="112" y="514" font-size="12.5">the party crosswalk.</text>
+
+  <!-- ══ LEFT: RELATIONSHIP ══ -->
+  <rect x="90" y="580" width="320" height="124" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+  <text class="ink" x="112" y="617" font-size="19" font-weight="600">What does it roll up to?</text>
+  <text class="mono red" x="112" y="641" font-size="11" letter-spacing="1.2">DIM_RELATIONSHIP · RELATIONSHIP_SK</text>
+  <text class="slate" x="112" y="665" font-size="12.5">Household and relationship keys</text>
+  <text class="slate" x="112" y="684" font-size="12.5">for client-level reporting.</text>
+
+  <!-- ══ RIGHT: SECURITY ══ -->
+  <rect x="1190" y="340" width="320" height="124" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+  <text class="ink" x="1212" y="377" font-size="19" font-weight="600">What exactly is held?</text>
+  <text class="mono red" x="1212" y="401" font-size="11" letter-spacing="1.2">DIM_SECURITY · SECURITY_SK</text>
+  <text class="slate" x="1212" y="425" font-size="12.5">One internal ID from CUSIP, ISIN or</text>
+  <text class="slate" x="1212" y="444" font-size="12.5">SEDOL, plus asset class and sector.</text>
+
+  <!-- ══ RIGHT: FX ══ -->
+  <rect x="1190" y="510" width="320" height="124" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+  <text class="ink" x="1212" y="547" font-size="19" font-weight="600">What is it worth today?</text>
+  <text class="mono red" x="1212" y="571" font-size="11" letter-spacing="1.2">FX_RATE · AS_OF_DT</text>
+  <text class="slate" x="1212" y="595" font-size="12.5">The as-of rate that converts local</text>
+  <text class="slate" x="1212" y="614" font-size="12.5">currency to base and reporting.</text>
+
+  <!-- ══ BOTTOM BAND ══ -->
+  <line x1="64" y1="750" x2="1536" y2="750" stroke="#D2D8DE" stroke-width="1"/>
+  <text class="serif ink" x="64" y="788" font-size="21">Every Stage 2 row carries six things</text>
+
+  <g>
+    <!-- 1 -->
+    <rect x="64" y="808" width="227" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+    <rect x="64" y="808" width="227" height="3" rx="1.5" fill="#A6192E"/>
+    <text class="ink" x="84" y="844" font-size="14.5" font-weight="600">Permanent ID</text>
+    <text class="slate" x="84" y="872" font-size="12.5">A key that stays stable</text>
+    <text class="slate" x="84" y="891" font-size="12.5">even when the source</text>
+    <text class="slate" x="84" y="910" font-size="12.5">system changes.</text>
+
+    <!-- 2 -->
+    <rect x="313" y="808" width="227" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+    <rect x="313" y="808" width="227" height="3" rx="1.5" fill="#A6192E"/>
+    <text class="ink" x="333" y="844" font-size="14.5" font-weight="600">Source trail</text>
+    <text class="slate" x="333" y="872" font-size="12.5">Which system, record</text>
+    <text class="slate" x="333" y="891" font-size="12.5">and batch it came from.</text>
+
+    <!-- 3 -->
+    <rect x="562" y="808" width="227" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+    <rect x="562" y="808" width="227" height="3" rx="1.5" fill="#A6192E"/>
+    <text class="ink" x="582" y="844" font-size="14.5" font-weight="600">Conformed links</text>
+    <text class="slate" x="582" y="872" font-size="12.5">The same client or</text>
+    <text class="slate" x="582" y="891" font-size="12.5">security means the same</text>
+    <text class="slate" x="582" y="910" font-size="12.5">thing in every report.</text>
+
+    <!-- 4 -->
+    <rect x="811" y="808" width="227" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+    <rect x="811" y="808" width="227" height="3" rx="1.5" fill="#A6192E"/>
+    <text class="ink" x="831" y="844" font-size="14.5" font-weight="600">Enriched facts</text>
+    <text class="slate" x="831" y="872" font-size="12.5">Market value, income,</text>
+    <text class="slate" x="831" y="891" font-size="12.5">gain and loss — computed</text>
+    <text class="slate" x="831" y="910" font-size="12.5">here, not by consumers.</text>
+
+    <!-- 5 -->
+    <rect x="1060" y="808" width="227" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+    <rect x="1060" y="808" width="227" height="3" rx="1.5" fill="#A6192E"/>
+    <text class="ink" x="1080" y="844" font-size="14.5" font-weight="600">Two clocks</text>
+    <text class="slate" x="1080" y="872" font-size="12.5">The business date it</text>
+    <text class="slate" x="1080" y="891" font-size="12.5">applies to, and the</text>
+    <text class="slate" x="1080" y="910" font-size="12.5">moment we learned it.</text>
+
+    <!-- 6 -->
+    <rect x="1309" y="808" width="227" height="150" rx="6" fill="#FFFFFF" stroke="#DCE1E6"/>
+    <rect x="1309" y="808" width="227" height="3" rx="1.5" fill="#A6192E"/>
+    <text class="ink" x="1329" y="844" font-size="14.5" font-weight="600">Trust score</text>
+    <text class="slate" x="1329" y="872" font-size="12.5">The quality result and</text>
+    <text class="slate" x="1329" y="891" font-size="12.5">any rule the row failed,</text>
+    <text class="slate" x="1329" y="910" font-size="12.5">carried with the row.</text>
+  </g>
+
+</svg>
