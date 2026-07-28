@@ -1,0 +1,278 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1480 1050" width="1480" height="1050" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">
+
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#14181C"/>
+    </marker>
+    <marker id="arV" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4E4177"/>
+    </marker>
+    <marker id="arM" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8A928C"/>
+    </marker>
+  </defs>
+
+  <rect width="1480" height="1050" fill="#F5F6F3"/>
+
+  <!-- ===== TITLE ===== -->
+  <text x="48" y="52" font-size="11" letter-spacing="2.4" fill="#8A928C">BBH CAPITAL PARTNERS &#183; ARB DRAFT &#183; OUTBOUND INTEGRATION</text>
+  <text x="48" y="86" font-family="'Helvetica Neue', Arial, sans-serif" font-size="30" font-weight="600" letter-spacing="-0.4" fill="#14181C">Integration Hub &#8594; Apigee &#8594; External APIs</text>
+  <text x="48" y="107" font-size="12.5" fill="#6B7570">Thin proxy at the hub. All policy, all credentials, one egress. Bulk data deliberately routed around it.</text>
+  <line x1="48" y1="120" x2="1432" y2="120" stroke="#C6CCC4" stroke-width="1"/>
+
+  <!-- ===== BAND 01 CONSUMERS ===== -->
+  <text x="48" y="168" font-size="21" font-weight="700" fill="#C6CCC4">01</text>
+  <text x="48" y="187" font-size="9.5" letter-spacing="1.4" fill="#2E4756">CONSUMERS</text>
+  <text x="48" y="200" font-size="9.5" letter-spacing="1.4" fill="#2E4756">(INTERNAL)</text>
+
+  <g fill="#FFFFFF" stroke="#2E4756" stroke-width="1.4">
+    <rect x="150" y="146" width="235" height="62" rx="3"/>
+    <rect x="405" y="146" width="235" height="62" rx="3"/>
+    <rect x="660" y="146" width="235" height="62" rx="3"/>
+    <rect x="915" y="146" width="235" height="62" rx="3"/>
+  </g>
+  <g font-size="12.5" fill="#14181C" font-weight="600">
+    <text x="166" y="172">CP 360 Catalog / UI</text>
+    <text x="421" y="172">SWP Pipelines</text>
+    <text x="676" y="172">Downstream Apps</text>
+    <text x="931" y="172">Batch / File Jobs</text>
+  </g>
+  <g font-size="10.5" fill="#6B7570">
+    <text x="166" y="191">interactive, low volume</text>
+    <text x="421" y="191">Airflow + dbt, scheduled</text>
+    <text x="676" y="191">~1,000 AddVantage consumers</text>
+    <text x="931" y="191">large extracts, nightly</text>
+  </g>
+
+  <!-- ===== BAND 02 INTEGRATION HUB ===== -->
+  <text x="48" y="300" font-size="21" font-weight="700" fill="#C6CCC4">02</text>
+  <text x="48" y="319" font-size="9.5" letter-spacing="1.4" fill="#96701A">INTEGRATION</text>
+  <text x="48" y="332" font-size="9.5" letter-spacing="1.4" fill="#96701A">HUB</text>
+  <text x="48" y="352" font-size="9.5" letter-spacing="1.4" fill="#96701A">(THIN PROXY)</text>
+
+  <rect x="150" y="252" width="870" height="182" rx="4" fill="#FBF7EC" stroke="#96701A" stroke-width="1.2"/>
+
+  <rect x="167" y="272" width="404" height="76" rx="3" fill="#FFFFFF" stroke="#96701A" stroke-width="1.4"/>
+  <text x="183" y="296" font-size="9.5" letter-spacing="1.3" fill="#96701A">FACADE &#183; PREFERRED</text>
+  <text x="183" y="316" font-size="13.5" font-weight="700" fill="#14181C">/bbh/party/v1/*</text>
+  <text x="183" y="335" font-size="10.5" fill="#6B7570">Stable BBH contract. Absorbs vendor drift.</text>
+
+  <rect x="599" y="272" width="404" height="76" rx="3" fill="#FFFFFF" stroke="#C6A85E" stroke-width="1.4" stroke-dasharray="5 3"/>
+  <text x="615" y="296" font-size="9.5" letter-spacing="1.3" fill="#A88A3E">PASSTHROUGH &#183; TACTICAL</text>
+  <text x="615" y="316" font-size="13.5" font-weight="700" fill="#14181C">/ext/sei/v1/*</text>
+  <text x="615" y="335" font-size="10.5" fill="#6B7570">1:1 vendor mirror. Short-lived only.</text>
+
+  <rect x="167" y="364" width="404" height="52" rx="3" fill="#FFFFFF" stroke="#96701A" stroke-width="1"/>
+  <text x="183" y="385" font-size="12" font-weight="600" fill="#14181C">Anti-corruption mapper</text>
+  <text x="183" y="403" font-size="10.5" fill="#6B7570">Schema translation only &#8212; no joins, no enrichment</text>
+
+  <text x="615" y="385" font-size="11" fill="#A88A3E">&#8595;&#8195;no transformation</text>
+  <text x="615" y="403" font-size="10.5" fill="#8A928C">vendor contract leaks to the consumer</text>
+
+  <!-- ===== TRUST BOUNDARY ===== -->
+  <rect x="136" y="448" width="898" height="330" rx="6" fill="none" stroke="#A8102A" stroke-width="1.6" stroke-dasharray="9 5"/>
+  <rect x="150" y="440" width="330" height="18" fill="#F5F6F3"/>
+  <text x="156" y="454" font-size="10" letter-spacing="1.2" font-weight="700" fill="#A8102A">CREDENTIAL TRUST BOUNDARY</text>
+  <rect x="700" y="440" width="320" height="18" fill="#F5F6F3"/>
+  <text x="706" y="454" font-size="10" fill="#A8102A">no vendor secret exists above this line</text>
+
+  <!-- lock glyph at crossing -->
+  <circle cx="585" cy="448" r="13" fill="#F5F6F3" stroke="#A8102A" stroke-width="1.6"/>
+  <rect x="580" y="446" width="10" height="8" rx="1.5" fill="#A8102A"/>
+  <path d="M 582.5 446 v -3 a 2.5 2.5 0 0 1 5 0 v 3" fill="none" stroke="#A8102A" stroke-width="1.5"/>
+
+  <!-- ===== BAND 03 APIGEE ===== -->
+  <text x="48" y="530" font-size="21" font-weight="700" fill="#C6CCC4">03</text>
+  <text x="48" y="549" font-size="9.5" letter-spacing="1.4" fill="#1B6350">APIGEE EDGE</text>
+  <text x="48" y="562" font-size="9.5" letter-spacing="1.4" fill="#1B6350">POLICY CHAIN</text>
+
+  <rect x="150" y="478" width="870" height="184" rx="4" fill="#EFF5F2" stroke="#1B6350" stroke-width="1.2"/>
+  <text x="167" y="500" font-size="10" letter-spacing="1.3" fill="#1B6350">EXECUTED IN ORDER &#183; ONE PLACE TO CHANGE</text>
+
+  <g font-size="10" fill="#14181C">
+    <!-- p1 -->
+    <rect x="167" y="512" width="130" height="132" rx="3" fill="#FFFFFF" stroke="#1B6350" stroke-width="1.2"/>
+    <text x="178" y="532" font-size="9" fill="#1B6350">01</text>
+    <text x="178" y="552" font-size="11.5" font-weight="700">AuthN /</text>
+    <text x="178" y="567" font-size="11.5" font-weight="700">AuthZ</text>
+    <text x="178" y="592" fill="#6B7570">Verify BBH</text>
+    <text x="178" y="606" fill="#6B7570">JWT or key.</text>
+    <text x="178" y="626" fill="#6B7570">Reject early.</text>
+
+    <!-- p2 credential swap -->
+    <rect x="309" y="512" width="130" height="132" rx="3" fill="#FFFFFF" stroke="#A8102A" stroke-width="1.8"/>
+    <text x="320" y="532" font-size="9" fill="#A8102A">02</text>
+    <text x="320" y="552" font-size="11.5" font-weight="700" fill="#A8102A">Credential</text>
+    <text x="320" y="567" font-size="11.5" font-weight="700" fill="#A8102A">swap</text>
+    <text x="320" y="592" fill="#6B7570">BBH token in,</text>
+    <text x="320" y="606" fill="#6B7570">vendor secret</text>
+    <text x="320" y="620" fill="#6B7570">out, from KVM.</text>
+    <text x="320" y="638" font-size="9" fill="#A8102A">THE WHOLE POINT</text>
+
+    <!-- p3 -->
+    <rect x="451" y="512" width="130" height="132" rx="3" fill="#FFFFFF" stroke="#1B6350" stroke-width="1.2"/>
+    <text x="462" y="532" font-size="9" fill="#1B6350">03</text>
+    <text x="462" y="552" font-size="11.5" font-weight="700">Token</text>
+    <text x="462" y="567" font-size="11.5" font-weight="700">cache</text>
+    <text x="462" y="592" fill="#6B7570">One OAuth</text>
+    <text x="462" y="606" fill="#6B7570">refresh loop,</text>
+    <text x="462" y="620" fill="#6B7570">not 1,000.</text>
+
+    <!-- p4 -->
+    <rect x="593" y="512" width="130" height="132" rx="3" fill="#FFFFFF" stroke="#1B6350" stroke-width="1.2"/>
+    <text x="604" y="532" font-size="9" fill="#1B6350">04</text>
+    <text x="604" y="552" font-size="11.5" font-weight="700">Quota +</text>
+    <text x="604" y="567" font-size="11.5" font-weight="700">spike arrest</text>
+    <text x="604" y="592" fill="#6B7570">Protects the</text>
+    <text x="604" y="606" fill="#6B7570">vendor contract.</text>
+    <text x="604" y="626" fill="#6B7570">Cost per caller.</text>
+
+    <!-- p5 -->
+    <rect x="735" y="512" width="130" height="132" rx="3" fill="#FFFFFF" stroke="#1B6350" stroke-width="1.2"/>
+    <text x="746" y="532" font-size="9" fill="#1B6350">05</text>
+    <text x="746" y="552" font-size="11.5" font-weight="700">Circuit</text>
+    <text x="746" y="567" font-size="11.5" font-weight="700">breaker</text>
+    <text x="746" y="592" fill="#6B7570">Fail fast when</text>
+    <text x="746" y="606" fill="#6B7570">the vendor</text>
+    <text x="746" y="620" fill="#6B7570">degrades.</text>
+
+    <!-- p6 -->
+    <rect x="877" y="512" width="130" height="132" rx="3" fill="#FFFFFF" stroke="#1B6350" stroke-width="1.2"/>
+    <text x="888" y="532" font-size="9" fill="#1B6350">06</text>
+    <text x="888" y="552" font-size="11.5" font-weight="700">Log +</text>
+    <text x="888" y="567" font-size="11.5" font-weight="700">mask</text>
+    <text x="888" y="592" fill="#6B7570">Correlation ID,</text>
+    <text x="888" y="606" fill="#6B7570">PII redaction,</text>
+    <text x="888" y="620" fill="#6B7570">audit trail.</text>
+  </g>
+
+  <g stroke="#1B6350" stroke-width="1.2" fill="none" marker-end="url(#ar)" opacity="0.75">
+    <line x1="297" y1="578" x2="306" y2="578"/>
+    <line x1="439" y1="578" x2="448" y2="578"/>
+    <line x1="581" y1="578" x2="590" y2="578"/>
+    <line x1="723" y1="578" x2="732" y2="578"/>
+    <line x1="865" y1="578" x2="874" y2="578"/>
+  </g>
+
+  <!-- ===== BAND 04 EGRESS ===== -->
+  <text x="48" y="722" font-size="21" font-weight="700" fill="#C6CCC4">04</text>
+  <text x="48" y="741" font-size="9.5" letter-spacing="1.4" fill="#1B6350">CONTROLLED</text>
+  <text x="48" y="754" font-size="9.5" letter-spacing="1.4" fill="#1B6350">EGRESS</text>
+
+  <rect x="150" y="690" width="870" height="72" rx="4" fill="#FFFFFF" stroke="#1B6350" stroke-width="1.2"/>
+  <text x="183" y="717" font-size="12.5" font-weight="700" fill="#14181C">Fixed source IP range</text>
+  <text x="183" y="737" font-size="10.5" fill="#6B7570">What vendors want to allowlist. Impossible if each app calls out on its own.</text>
+  <line x1="640" y1="708" x2="640" y2="744" stroke="#C6CCC4"/>
+  <text x="672" y="717" font-size="12.5" font-weight="700" fill="#14181C">mTLS &#183; TLS 1.3</text>
+  <text x="672" y="737" font-size="10.5" fill="#6B7570">Cert rotation owned here, not by 40 teams.</text>
+
+  <!-- ===== BAND 05 EXTERNAL ===== -->
+  <text x="48" y="838" font-size="21" font-weight="700" fill="#C6CCC4">05</text>
+  <text x="48" y="857" font-size="9.5" letter-spacing="1.4" fill="#6B7570">EXTERNAL</text>
+  <text x="48" y="870" font-size="9.5" letter-spacing="1.4" fill="#6B7570">(NOT OURS)</text>
+
+  <g fill="#FFFFFF" stroke="#8A928C" stroke-width="1.3" stroke-dasharray="6 4">
+    <rect x="150" y="812" width="235" height="66" rx="3"/>
+    <rect x="405" y="812" width="235" height="66" rx="3"/>
+    <rect x="660" y="812" width="235" height="66" rx="3"/>
+    <rect x="915" y="812" width="235" height="66" rx="3"/>
+  </g>
+  <g font-size="12.5" font-weight="600" fill="#3A3F45">
+    <text x="166" y="840">SEI SWP</text>
+    <text x="421" y="840">Plaid / FDX</text>
+    <text x="676" y="840">Market Data</text>
+    <text x="931" y="840">Other third parties</text>
+  </g>
+  <g font-size="10.5" fill="#8A928C">
+    <text x="166" y="860">party, positions, txns</text>
+    <text x="421" y="860">open banking</text>
+    <text x="676" y="860">pricing, reference</text>
+    <text x="931" y="860">onboarded via same pattern</text>
+  </g>
+
+  <!-- ===== BULK BYPASS LANE ===== -->
+  <rect x="1052" y="252" width="98" height="510" rx="4" fill="#F3F0F8" stroke="#4E4177" stroke-width="1.2" stroke-dasharray="6 4"/>
+  <text x="1101" y="284" font-size="9.5" letter-spacing="1.2" fill="#4E4177" text-anchor="middle">BYPASS</text>
+  <rect x="1068" y="440" width="66" height="140" rx="3" fill="#FFFFFF" stroke="#4E4177" stroke-width="1.3"/>
+  <text x="1101" y="470" font-size="11.5" font-weight="700" fill="#4E4177" text-anchor="middle">Object</text>
+  <text x="1101" y="486" font-size="11.5" font-weight="700" fill="#4E4177" text-anchor="middle">store</text>
+  <text x="1101" y="512" font-size="10" fill="#6B7570" text-anchor="middle">direct</text>
+  <text x="1101" y="526" font-size="10" fill="#6B7570" text-anchor="middle">landing</text>
+  <text x="1101" y="550" font-size="9.5" fill="#4E4177" text-anchor="middle">&gt;10 MB</text>
+  <text x="1101" y="564" font-size="9.5" fill="#4E4177" text-anchor="middle">&gt;55 s</text>
+  <text x="1101" y="612" font-size="10" fill="#6B7570" text-anchor="middle">Gateways are</text>
+  <text x="1101" y="626" font-size="10" fill="#6B7570" text-anchor="middle">for requests,</text>
+  <text x="1101" y="640" font-size="10" fill="#6B7570" text-anchor="middle">not freight.</text>
+
+  <!-- ===== RIGHT RAIL ===== -->
+  <line x1="1174" y1="252" x2="1174" y2="762" stroke="#C6CCC4"/>
+  <text x="1196" y="270" font-size="9.5" letter-spacing="1.4" fill="#8A928C">CROSS-CUTTING</text>
+
+  <rect x="1196" y="286" width="236" height="106" rx="3" fill="#FFFFFF" stroke="#A8102A" stroke-width="1.3"/>
+  <text x="1212" y="312" font-size="12.5" font-weight="700" fill="#A8102A">Vault / Apigee KVM</text>
+  <text x="1212" y="333" font-size="10.5" fill="#6B7570">Sole home of vendor secrets.</text>
+  <text x="1212" y="349" font-size="10.5" fill="#6B7570">Read only by policy 02.</text>
+  <text x="1212" y="373" font-size="10.5" fill="#6B7570">No human, no app, no log.</text>
+
+  <rect x="1196" y="408" width="236" height="106" rx="3" fill="#FFFFFF" stroke="#1B6350" stroke-width="1.3"/>
+  <text x="1212" y="434" font-size="12.5" font-weight="700" fill="#1B6350">Observability</text>
+  <text x="1212" y="455" font-size="10.5" fill="#6B7570">Latency, error rate, SLO</text>
+  <text x="1212" y="471" font-size="10.5" fill="#6B7570">per target and per caller.</text>
+  <text x="1212" y="495" font-size="10.5" fill="#6B7570">Feeds CP 360 lineage.</text>
+
+  <rect x="1196" y="530" width="236" height="106" rx="3" fill="#FFFFFF" stroke="#2E4756" stroke-width="1.3"/>
+  <text x="1212" y="556" font-size="12.5" font-weight="700" fill="#2E4756">NYDFS Part 500</text>
+  <text x="1212" y="577" font-size="10.5" fill="#6B7570">One audit trail to evidence,</text>
+  <text x="1212" y="593" font-size="10.5" fill="#6B7570">not forty scattered ones.</text>
+  <text x="1212" y="617" font-size="10.5" fill="#6B7570">Access logs retained here.</text>
+
+  <g stroke="#8A928C" stroke-width="1" stroke-dasharray="3 3" fill="none" marker-end="url(#arM)">
+    <path d="M 1196 339 L 1120 339 L 1120 470 L 1052 470" opacity="0"/>
+    <path d="M 1196 460 L 1174 460"/>
+  </g>
+  <path d="M 439 578 L 439 500 L 1160 500 L 1160 339 L 1196 339" fill="none" stroke="#A8102A" stroke-width="1.1" stroke-dasharray="4 3" marker-end="url(#ar)" opacity="0"/>
+  <line x1="1007" y1="640" x2="1052" y2="640" stroke="#8A928C" stroke-width="1" stroke-dasharray="3 3" opacity="0"/>
+
+  <!-- ===== FLOW ARROWS ===== -->
+  <g stroke="#14181C" stroke-width="1.4" fill="none" marker-end="url(#ar)">
+    <path d="M 267 208 L 267 240 L 369 240 L 369 270"/>
+    <path d="M 522 208 L 522 240 L 369 240"/>
+    <path d="M 777 208 L 777 240 L 369 240"/>
+    <path d="M 1032 208 L 1032 232 L 801 232 L 801 270"/>
+    <path d="M 369 348 L 369 362"/>
+    <path d="M 369 416 L 369 434 L 585 434 L 585 476"/>
+    <path d="M 801 348 L 801 434 L 585 434"/>
+    <path d="M 585 662 L 585 688"/>
+    <path d="M 585 762 L 585 790 L 267 790 L 267 810"/>
+    <path d="M 585 790 L 522 790 L 522 810"/>
+    <path d="M 585 790 L 777 790 L 777 810"/>
+    <path d="M 585 790 L 1032 790 L 1032 810"/>
+  </g>
+
+  <g stroke="#4E4177" stroke-width="1.4" fill="none" marker-end="url(#arV)" stroke-dasharray="7 4">
+    <path d="M 1101 208 L 1101 438"/>
+    <path d="M 1101 580 L 1101 790 L 1032 790" marker-end="none"/>
+  </g>
+
+  <!-- ===== LEGEND ===== -->
+  <line x1="48" y1="920" x2="1432" y2="920" stroke="#C6CCC4"/>
+  <text x="48" y="946" font-size="9.5" letter-spacing="1.4" fill="#8A928C">READING THE DIAGRAM</text>
+
+  <g font-size="10.5" fill="#6B7570">
+    <rect x="48" y="962" width="12" height="12" fill="none" stroke="#2E4756" stroke-width="1.4"/>
+    <text x="68" y="972">Systems we own</text>
+
+    <rect x="220" y="962" width="12" height="12" fill="none" stroke="#8A928C" stroke-width="1.3" stroke-dasharray="4 3"/>
+    <text x="240" y="972">Systems we do not control</text>
+
+    <rect x="450" y="962" width="12" height="12" fill="none" stroke="#A8102A" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="470" y="972">Credential boundary &#8212; red appears nowhere else</text>
+
+    <rect x="810" y="962" width="12" height="12" fill="none" stroke="#4E4177" stroke-width="1.3" stroke-dasharray="4 3"/>
+    <text x="830" y="972">Path that deliberately skips the gateway</text>
+  </g>
+
+  <text x="48" y="1002" font-size="10.5" fill="#8A928C">Colour marks ownership, not technology. The single argument of this diagram: a consumer credential enters at 03/02 and dies there &#8212; a vendor credential is born in its place and never travels back up.</text>
+  <text x="48" y="1022" font-size="10.5" fill="#8A928C">Facade is the default for long-lived integrations; passthrough is a dated exception, not a tier. Bulk transfer is out of scope for the gateway by design, not by omission.</text>
+
+</svg>
