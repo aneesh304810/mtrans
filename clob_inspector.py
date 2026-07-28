@@ -76,17 +76,64 @@ def _mk(field, inferred, nn, total, verdict, risk=None, mean=None):
                 risk=risk, verdict=(verdict or "")[:380])
 
 
+
+def _sample_texts(scur, qtab, clob_col, limit, max_chars=6000):
+    """Fetch up to `limit` CLOB values as Python strings via native LOB
+    reads — avoids the 4000-byte SQL VARCHAR2 cast ceiling entirely."""
+    c = f'"{clob_col}"'
+    scur.execute(f"SELECT {c} FROM {qtab} "
+                 f"WHERE {c} IS NOT NULL AND ROWNUM <= {limit}")
+    out = []
+    for (lob,) in scur:
+        try:
+            txt = lob.read() if hasattr(lob, "read") else str(lob)
+        except Exception:                                   # noqa: BLE001
+            continue
+        out.append(txt[:max_chars])
+    return out
+
+
+def sniff_family(texts):
+    """Content-based parser guess for CLOBs the registry doesn't know.
+    Votes across a sample; returns (family, confidence_pct, evidence)."""
+    import json as _json
+    import re as _re
+    if not texts:
+        return None, 0, "no content"
+    votes = {"json": 0, "delimited": 0, "html": 0, "kv": 0}
+    for t in texts:
+        t = (t or "").lstrip()
+        if t[:1] in "{[":
+            try:
+                _json.loads(t)
+                votes["json"] += 1
+                continue
+            except Exception:                               # noqa: BLE001
+                pass
+        if "||" in t and len(t) < 2000:
+            votes["delimited"] += 1
+            continue
+        if _re.search(r"<\s*(br|p|div|span|table)\b", t, _re.I):
+            votes["html"] += 1
+            continue
+        if _re.match(r"^[A-Z_]{2,}\s*[:=]", t):
+            votes["kv"] += 1
+    fam, n = max(votes.items(), key=lambda kv: kv[1])
+    conf = round(100 * n / len(texts), 1)
+    if conf < 80:
+        return None, conf, f"mixed signals {votes}"
+    mapped = {"json": "json_parser", "delimited": "delimited_parser",
+              "html": "text_parser", "kv": "text_parser"}
+    return mapped[fam], conf, f"{fam} in {n}/{len(texts)} sampled blobs"
+
 def profile_json(scur, qtab, clob_col, suppress, sample_rows=2000):
     """JSON payload census: key coverage across blobs + per-key sample
     (masked when the registry marks the payload sensitive)."""
     import json as _json
-    c = f'"{clob_col}"'
-    scur.execute(f"SELECT CAST(DBMS_LOB.SUBSTR({c}, 3000, 1) "
-                 f"AS VARCHAR2(3000)) FROM {qtab} "
-                 f"WHERE {c} IS NOT NULL AND ROWNUM <= {sample_rows}")
+    texts = _sample_texts(scur, qtab, clob_col, sample_rows)
     keys, samples, parsed, bad = {}, {}, 0, 0
     n = 0
-    for (txt,) in scur:
+    for txt in texts:
         n += 1
         try:
             obj = _json.loads(txt)
@@ -118,12 +165,9 @@ def profile_delimited(scur, qtab, clob_col, delim, suppress,
     """Delimited list census: tokens per row + top token values."""
     from collections import Counter
     major = (delim or "||").split(",")[0] or "||"
-    c = f'"{clob_col}"'
-    scur.execute(f"SELECT CAST(DBMS_LOB.SUBSTR({c}, 2000, 1) "
-                 f"AS VARCHAR2(2000)) FROM {qtab} "
-                 f"WHERE {c} IS NOT NULL AND ROWNUM <= {sample_rows}")
+    texts = _sample_texts(scur, qtab, clob_col, sample_rows)
     counts, toks, n = [], Counter(), 0
-    for (txt,) in scur:
+    for txt in texts:
         n += 1
         parts = [p for p in (txt or "").split(major) if p != ""]
         counts.append(len(parts))
@@ -134,8 +178,8 @@ def profile_delimited(scur, qtab, clob_col, delim, suppress,
                 f"{max(counts) if counts else 0} · "
                 f"{len(toks)} distinct tokens — child entity: "
                 f"explode to rows in target model", mean=avg)]
-    for tok, cnt in toks.most_common(10):
-        rows.append(_mk(f"TOKEN_{cnt}", "LIST_TOKEN", cnt,
+    for i, (tok, cnt) in enumerate(toks.most_common(10), 1):
+        rows.append(_mk(f"TOKEN_{i:02d}", "LIST_TOKEN", cnt,
                         sum(counts),
                         (_mask(tok) if suppress else tok)[:120]))
     return rows
@@ -329,8 +373,7 @@ def profile_text(scur, qtab, clob_col, sample_rows=0):
                         THEN 1 ELSE 0 END),
                ROUND(AVG(DBMS_LOB.GETLENGTH({c})), 1),
                MAX(DBMS_LOB.GETLENGTH({c})),
-               APPROX_COUNT_DISTINCT(
-                   CAST(DBMS_LOB.SUBSTR({c}, 120, 1) AS VARCHAR2(480)))
+               APPROX_COUNT_DISTINCT(DBMS_LOB.SUBSTR({c}, 120, 1))
         FROM {src}""")
     total, nn, fits4k, lavg, lmax, ndv = scur.fetchone()
     rows = [dict(field_name="TEXT_PROFILE", pos_start=None, pos_len=None,
@@ -346,16 +389,10 @@ def profile_text(scur, qtab, clob_col, sample_rows=0):
                              else "")))]
     if ndv and nn and ndv <= 50:
         try:
-            scur.execute(f"""
-                SELECT v, cnt FROM (
-                  SELECT CAST(DBMS_LOB.SUBSTR({c}, 120, 1)
-                              AS VARCHAR2(480)) v, COUNT(*) cnt
-                  FROM {src} WHERE {c} IS NOT NULL
-                  GROUP BY CAST(DBMS_LOB.SUBSTR({c}, 120, 1)
-                                AS VARCHAR2(480))
-                  ORDER BY cnt DESC)
-                WHERE ROWNUM <= 10""")
-            for i, (v, cnt) in enumerate(scur.fetchall(), 1):
+            from collections import Counter
+            vals = Counter(t[:120] for t in
+                           _sample_texts(scur, src, clob_col, 5000, 200))
+            for i, (v, cnt) in enumerate(vals.most_common(10), 1):
                 rows.append(dict(
                     field_name=f"VALUE_{i:02d}", pos_start=None,
                     pos_len=None, target_column=None,
@@ -373,6 +410,7 @@ def profile_text(scur, qtab, clob_col, sample_rows=0):
 
 # ---------------------------------------------------------------------------
 def inspect(data_source, table, clob=None, sample_rows=0, run_id=None):
+    table = table.split(".")[-1].strip().upper()   # store unqualified, always
     run_id = run_id or f"CLB{dt.datetime.now():%Y%m%d_%H%M%S}"
     cconn = _catalog()
     ccur = cconn.cursor()
@@ -437,23 +475,42 @@ def inspect(data_source, table, clob=None, sample_rows=0, run_id=None):
             fam = reg["family"] if reg else None
             if fam:
                 meta["structure"] = reg["name"][:30]
+            elif meta["structure"] != "FIXED_WIDTH":
+                # unregistered CLOB: sniff content to pick a parser;
+                # unregistered = unreviewed, so suppress values by default
+                guess, conf, why = sniff_family(
+                    _sample_texts(scur, qtab, cc, 200))
+                if guess:
+                    fam, suppress = guess, True
+                    meta["structure"] = f"SNIFFED:{guess[:22]}"
+                    log.info("%s: sniffed %s (%s%% — %s) — add to "
+                             "recon_clob_registry to confirm",
+                             cc, guess, conf, why)
             fields = []
-            if fam == "json_parser":
+            try:
+              if fam == "json_parser":
                 fields = profile_json(scur, qtab, cc, suppress)
-            elif fam == "delimited_parser":
+              elif fam == "delimited_parser":
                 fields = profile_delimited(scur, qtab, cc,
                                            reg.get("delim"), suppress)
-            elif fam == "empty_handler":
+              elif fam == "empty_handler":
                 fields = profile_empty_check(scur, qtab, cc)
-            elif meta["structure"] == "FIXED_WIDTH" and spec:
+              elif meta["structure"] == "FIXED_WIDTH" and spec:
                 fields = profile_fields(scur, qtab, cc, spec, gaps,
                                         masks, sample_rows)
-            else:
+              else:
                 fields = profile_text(scur, qtab, cc, sample_rows)
                 if suppress:
                     for f in fields:
                         if f["inferred_type"] == "TEXT_VALUE":
                             f["verdict"] = _mask(f["verdict"])
+            except Exception as pe:                         # noqa: BLE001
+                log.warning("parser failed for %s (%s): %s",
+                            cc, fam or meta["structure"], str(pe)[:120])
+                fields = [_mk("PARSER_ERROR", "ERROR", 0,
+                              meta.get("blob_count") or 0,
+                              f"{fam or meta['structure']}: {str(pe)[:200]}",
+                              risk="PARSER_ERROR")]
             if fields:
                 for f in fields:
                     ccur.execute("""INSERT INTO recon_clob_fields
